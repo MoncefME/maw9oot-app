@@ -25,4 +25,8 @@ interface PrayerLogDao {
 
     @Query("SELECT * FROM prayer_log")
     fun getAllPrayerLogs(): Flow<List<PrayerLog>>
+
+    @Query("SELECT * FROM prayer_log ORDER BY date")
+    fun getPrayersBetweenDates(): Flow<List<PrayerLog>>
+
 }

@@ -1,6 +1,5 @@
 package com.example.maw9oot.presentation.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -32,9 +31,6 @@ fun PrayerBottomSheet(
 
     var selectedStatus by remember { mutableStateOf(currentStatus) }
 
-    Log.d("PrayerBottomSheet", "Prayer: $prayer")
-    Log.d("PrayerBottomSheet", "Current Status: $currentStatus")
-    Log.d("PrayerBottomSheet", "Selected Status: $selectedStatus")
 
     BottomSheet(
         dragHandle = {},
@@ -72,7 +68,7 @@ fun PrayerBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            val statuses = com.example.maw9oot.presentation.ui.enums.PrayerStatus.entries.filter { it != com.example.maw9oot.presentation.ui.enums.PrayerStatus.NONE }
+            val statuses = PrayerStatus.entries.filter { it != PrayerStatus.NONE }
             statuses.forEach { status ->
                 Row(
                     modifier = Modifier
@@ -87,8 +83,6 @@ fun PrayerBottomSheet(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
-
                     RadioButton(
                         selected = currentStatus == status,
                         onClick = {
@@ -118,8 +112,6 @@ fun PrayerBottomSheet(
                             modifier = Modifier.size(50.dp)
                         )
                     }
-
-
                 }
             }
         }

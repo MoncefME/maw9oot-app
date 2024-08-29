@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.components
+package com.example.maw9oot.presentation.ui.components.layout
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

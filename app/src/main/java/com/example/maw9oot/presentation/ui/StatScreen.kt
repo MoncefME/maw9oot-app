@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.maw9oot.presentation.ui.components.PrayerGrid
 import com.example.maw9oot.presentation.viewmodel.StatViewModel
 
 @Composable
@@ -18,15 +19,12 @@ fun StatScreen(
     statViewModel: StatViewModel
 ) {
 
-    val prayerLogs by statViewModel.prayerLogs.collectAsState()
+    val prayers by statViewModel.prayers.collectAsState()
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(prayerLogs) { log ->
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = "Prayer: ${log.prayerType}")
-                Text(text = "Status: ${log.status}")
-                Text(text = "Date: ${log.date}")
-            }
-        }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        PrayerGrid(days = prayers)
     }
 }
+

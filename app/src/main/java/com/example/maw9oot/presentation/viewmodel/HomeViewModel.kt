@@ -10,6 +10,8 @@ import com.example.maw9oot.presentation.ui.enums.PrayerStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import java.text.SimpleDateFormat
+import java.util.*
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -19,27 +21,48 @@ class HomeViewModel @Inject constructor(
     private val _selectedPrayer = MutableLiveData<Prayer>(Prayer.FAJR)
     val selectedPrayer: LiveData<Prayer> = _selectedPrayer
 
-    private val _prayerStatuses = MutableLiveData<Map<Prayer, PrayerStatus>>().apply {
-        value = Prayer.entries.associateWith { PrayerStatus.NONE }
-    }
+    private val _prayerStatuses = MutableLiveData<Map<Prayer, PrayerStatus>>()
     val prayerStatuses: LiveData<Map<Prayer, PrayerStatus>> = _prayerStatuses
+
+    private val _selectedDate = MutableLiveData<String>().apply {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        value = dateFormat.format(Calendar.getInstance().time)
+    }
+    val selectedDate: LiveData<String> = _selectedDate
+
+    init {
+        // Load prayer statuses when the ViewModel is first created
+        loadPrayerStatusesForSelectedDate()
+    }
 
     fun selectPrayer(prayer: Prayer) {
         _selectedPrayer.value = prayer
     }
 
-    fun updateStatus(prayer: Prayer, status: PrayerStatus) {
+    fun updateStatus(prayer: Prayer, status: PrayerStatus, date: String) {
         val currentStatuses = _prayerStatuses.value.orEmpty().toMutableMap()
         currentStatuses[prayer] = status
         _prayerStatuses.value = currentStatuses
 
         viewModelScope.launch {
             repository.upsertPrayerLog(
-                date = "2021-09-01",
+                date = date,
                 prayerType = prayer.prayerName,
                 status = status.name
             )
         }
     }
-}
 
+    fun updateSelectedDate(newDate: String) {
+        _selectedDate.value = newDate
+        loadPrayerStatusesForSelectedDate() // Load prayer statuses for the new date
+    }
+
+    private fun loadPrayerStatusesForSelectedDate() {
+        val date = _selectedDate.value ?: return
+        viewModelScope.launch {
+            val statuses = repository.getPrayerStatusesForDate(date)
+            _prayerStatuses.value = statuses
+        }
+    }
+}

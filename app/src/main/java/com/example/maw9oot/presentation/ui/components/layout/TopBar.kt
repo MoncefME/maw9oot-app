@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.components
+package com.example.maw9oot.presentation.ui.components.layout
 
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +27,7 @@ fun TopBar(navController: NavHostController) {
     val currentRoute = navBackStackEntry.value?.destination?.route
 
     val title = when (currentRoute) {
-        Screens.HomeScreen.route -> getCurrentDate()
+        Screens.HomeScreen.route -> "Home"
         Screens.StatScreen.route -> "Stats"
         Screens.SettingScreen.route -> "Settings"
         else -> "Maw9oot"
@@ -51,7 +51,7 @@ fun TopBar(navController: NavHostController) {
     )
 }
 
-fun getCurrentDate(): String {
-    val calendar = Calendar.getInstance()
-    return SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(calendar.time)
-}
+//fun getCurrentDate(): String {
+//    val calendar = Calendar.getInstance()
+//    return SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(calendar.time)
+//}
