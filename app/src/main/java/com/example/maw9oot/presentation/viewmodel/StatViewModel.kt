@@ -1,17 +1,12 @@
 package com.example.maw9oot.presentation.viewmodel
 
-import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.maw9oot.data.model.PrayerLog
 import com.example.maw9oot.data.repository.PrayerLogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -34,18 +29,18 @@ class StatViewModel @Inject constructor(
         }
     }
     private fun preprocessLogs(logs: List<List<PrayerLog>>): List<List<PrayerLog>> {
-        if (logs.isEmpty()) return List(7) { emptyList() }
+        if (logs.isEmpty()) return List(8) { emptyList() }
 
         val allDays = mutableListOf<List<PrayerLog>>()
         val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-        // Get the start and end dates, ensuring they are not empty
+
         val startDate = logs.firstOrNull()?.firstOrNull()?.date?.substring(0, 10) ?: LocalDate.now().toString()
         val endDate = logs.lastOrNull()?.firstOrNull()?.date?.substring(0, 10) ?: LocalDate.now().toString()
         val start = LocalDate.parse(startDate, dateFormat)
         val end = LocalDate.parse(endDate, dateFormat)
 
-        // Add missing days
+
         var currentDate = start
         while (currentDate <= end) {
             val dayLogs = logs.find { it.firstOrNull()?.date?.substring(0, 10) == currentDate.toString() } ?: emptyList()
@@ -53,10 +48,8 @@ class StatViewModel @Inject constructor(
             currentDate = currentDate.plusDays(1)
         }
 
-        // Ensure at least 10 days are shown
-        if (allDays.size < 7) {
-            val paddingDays = 7 - allDays.size
-            val lastDate = end.plusDays(1)
+        if (allDays.size < 8) {
+            val paddingDays = 8 - allDays.size
             repeat(paddingDays) {
                 allDays.add(emptyList())
                 end.plusDays(1)

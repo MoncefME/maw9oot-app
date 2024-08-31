@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.components
+package com.example.maw9oot.presentation.ui.components.stats
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -11,12 +11,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.times
 import com.example.maw9oot.presentation.ui.enums.Prayer
 
 @Composable

@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.annotations)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -73,6 +74,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.androidx.appcompat)
 
     // Dagger Hilt
     implementation(libs.hilt.android)
@@ -96,5 +99,11 @@ dependencies {
     // Datastore
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.preferences.core)
+
+    // Material3
+    implementation(libs.material3)
+
+    // Biometrics
+    implementation(libs.androidx.biometric)
 
 }

@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.components
+package com.example.maw9oot.presentation.ui.components.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

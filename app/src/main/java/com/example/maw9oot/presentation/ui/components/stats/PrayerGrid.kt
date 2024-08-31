@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.components
+package com.example.maw9oot.presentation.ui.components.stats
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import com.example.maw9oot.data.model.PrayerLog
 import com.example.maw9oot.presentation.ui.enums.Prayer
-import com.example.maw9oot.presentation.ui.utils.getMonthAbbreviation
 import com.example.maw9oot.presentation.ui.utils.getMonthYear
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -37,7 +36,6 @@ fun PrayerGrid(
     val boxSize = 30.dp
     val fontSize = 18.sp
 
-//    val prayers = listOf("Fajr", "Dhuhr", "Asr", "Maghrib", "Isha")
 
     val prayers  = Prayer.entries.map { it.prayerName }
 
@@ -53,7 +51,7 @@ fun PrayerGrid(
     val end = LocalDate.parse(endDate, dateFormat)
 
     var currentDate = start
-    while (currentDate <= end || displayedDays.size < 7) {
+    while (currentDate <= end || displayedDays.size < 8) {
         displayedDays.add(currentDate.toString())
         currentDate = currentDate.plusDays(1)
     }

@@ -6,23 +6,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.maw9oot.presentation.ui.components.Challenge
-import com.example.maw9oot.presentation.ui.components.ChallengeCard
-import com.example.maw9oot.presentation.ui.components.PrayerGrid
-import com.example.maw9oot.presentation.ui.components.PrayerStatsCard
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.maw9oot.presentation.ui.components.stats.Challenge
+import com.example.maw9oot.presentation.ui.components.stats.ChallengeCard
+import com.example.maw9oot.presentation.ui.components.stats.PrayerGrid
+import com.example.maw9oot.presentation.ui.components.stats.PrayerStatsCard
 import com.example.maw9oot.presentation.viewmodel.StatViewModel
 
 @Composable
 fun StatScreen(
-    navController: NavController,
-    statViewModel: StatViewModel
+    statViewModel: StatViewModel = hiltViewModel()
 ) {
 
     val days by statViewModel.days.collectAsState()
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(bottom = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {

@@ -13,11 +13,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dokar.sheets.rememberBottomSheetState
 import com.example.maw9oot.R
-import com.example.maw9oot.presentation.ui.components.PrayerBottomSheet
-import com.example.maw9oot.presentation.ui.components.PrayerButton
+import com.example.maw9oot.presentation.ui.components.home.PrayerBottomSheet
+import com.example.maw9oot.presentation.ui.components.home.PrayerButton
 import com.example.maw9oot.presentation.ui.enums.Prayer
 import com.example.maw9oot.presentation.ui.enums.PrayerStatus
 import com.example.maw9oot.presentation.viewmodel.HomeViewModel
@@ -28,7 +29,7 @@ import java.util.*
 @Composable
 fun HomeScreen(
     navController: NavController,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberBottomSheetState()
