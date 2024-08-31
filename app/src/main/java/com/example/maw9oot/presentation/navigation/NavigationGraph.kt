@@ -5,10 +5,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.maw9oot.presentation.ui.StatScreen
-import com.example.maw9oot.presentation.ui.HomeScreen
-import com.example.maw9oot.presentation.ui.SettingScreen
+import com.example.maw9oot.presentation.ui.screens.StatScreen
+import com.example.maw9oot.presentation.ui.screens.HomeScreen
+import com.example.maw9oot.presentation.ui.screens.SettingScreen
 import com.example.maw9oot.presentation.viewmodel.HomeViewModel
+import com.example.maw9oot.presentation.viewmodel.SettingsViewModel
 import com.example.maw9oot.presentation.viewmodel.StatViewModel
 
 @Composable
@@ -16,7 +17,7 @@ fun NavigationGraph(navController: NavHostController){
 
     val homeViewModel = hiltViewModel<HomeViewModel>()
     val statViewModel = hiltViewModel<StatViewModel>()
-    val settingViewModel = hiltViewModel<StatViewModel>()
+    val settingsViewModel = hiltViewModel<SettingsViewModel>()
 
     NavHost(navController = navController, startDestination = Screens.HomeScreen.route){
         composable(route = Screens.HomeScreen.route){
@@ -26,7 +27,7 @@ fun NavigationGraph(navController: NavHostController){
             StatScreen(navController = navController,statViewModel = statViewModel)
         }
         composable(route = Screens.SettingScreen.route){
-            SettingScreen(navController = navController,settingViewModel = settingViewModel)
+            SettingScreen(navController = navController,settingsViewModel = settingsViewModel)
         }
     }
 

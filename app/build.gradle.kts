@@ -93,4 +93,8 @@ dependencies {
     // Google fonts
     implementation(libs.androidx.ui.text.google.fonts)
 
+    // Datastore
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore.preferences.core)
+
 }
