@@ -4,18 +4,16 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import java.util.Calendar
 
-fun scheduleDailyNotification(context: Context) {
-    val calendar = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 23)
-        set(Calendar.MINUTE, 59)
-        set(Calendar.SECOND, 0)
+fun scheduleDailyNotification(context: Context, calendar: Calendar) {
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+    val intent = Intent(context, PrayerNotificationReceiver::class.java).apply {
+        putExtra("notification_type", "daily")
     }
 
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val intent = Intent(context, PrayerNotificationReceiver::class.java)
-    intent.putExtra("notification_type", "daily")
     val pendingIntent = PendingIntent.getBroadcast(
         context,
         0,
@@ -23,25 +21,29 @@ fun scheduleDailyNotification(context: Context) {
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
 
-    alarmManager.setRepeating(
+    alarmManager.setExactAndAllowWhileIdle(
         AlarmManager.RTC_WAKEUP,
         calendar.timeInMillis,
-        AlarmManager.INTERVAL_DAY,
         pendingIntent
     )
 }
 
-fun schedulePrayerReminder(context: Context, prayerTime: Calendar, delayMinutes: Int) {
-    val reminderTime = prayerTime.apply {
-        add(Calendar.MINUTE, delayMinutes)
-    }
+fun schedulePrayerReminder(context: Context, prayerTime: Calendar, delayMinutes: Int, prayerName: String) {
+
+    val reminderTime = prayerTime.clone() as Calendar
+
+    reminderTime.add(Calendar.MINUTE, delayMinutes)
 
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val intent = Intent(context, PrayerNotificationReceiver::class.java)
-    intent.putExtra("notification_type", "prayer_reminder")
+
+    val intent = Intent(context, PrayerNotificationReceiver::class.java).apply {
+        putExtra("notification_type", "prayer_reminder")
+        putExtra("prayer_name", prayerName)
+    }
+
     val pendingIntent = PendingIntent.getBroadcast(
         context,
-        1,
+        prayerTime.hashCode(),
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )

@@ -68,7 +68,7 @@ fun SettingScreen(
             onToggle = { settingsViewModel.togglePrayerReminder(it, prayerReminderDelay) }
         )
 
-        SecuritySetting(isSecure = isSecure, onToggle = {
+         SecuritySetting(isSecure = isSecure, onToggle = {
             settingsViewModel.enableSecurity(it)
         })
 
