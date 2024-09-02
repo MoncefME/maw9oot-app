@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.maw9oot.R
@@ -55,7 +56,7 @@ fun DailyReminderSetting(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ){
             Icon(painter = painterResource(id = R.drawable.baseline_notifications_active_24), contentDescription ="Dark Theme Icon" )
-            Text(text = "Daily Reminder")
+            Text(text = stringResource(id = R.string.settings_daily_reminder))
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,

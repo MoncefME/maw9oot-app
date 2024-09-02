@@ -1,6 +1,7 @@
 package com.example.maw9oot.presentation.ui.screens
 
 import android.app.DatePickerDialog
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -36,12 +37,14 @@ fun HomeScreen(
 
     val selectedPrayer by homeViewModel.selectedPrayer.observeAsState(Prayer.FAJR)
     val prayerStatuses by homeViewModel.prayerStatuses.observeAsState(emptyMap())
+    val prayerTimes by homeViewModel.prayerTimeForDate.observeAsState(emptyMap())
     val selectedDate by homeViewModel.selectedDate.observeAsState("")
 
     val calendar = Calendar.getInstance()
     val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
 
     fun showSheet(prayer: Prayer) {
+        Log.d("HomeScreen", "prayerTimes: $prayerTimes")
         homeViewModel.selectPrayer(prayer)
         scope.launch { sheetState.expand(animate = true) }
     }
@@ -80,7 +83,7 @@ fun HomeScreen(
                 }
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_navigate_before_24), // Replace with actual icon
+                    painter = painterResource(id = R.drawable.baseline_navigate_before_24),
                     contentDescription = "Previous Day",
                     modifier = Modifier.size(35.dp)
                 )
@@ -107,7 +110,7 @@ fun HomeScreen(
                 enabled = selectedDate != currentDate
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_navigate_next_24), // Replace with actual icon
+                    painter = painterResource(id = R.drawable.baseline_navigate_next_24),
                     contentDescription = "Next Day",
                     modifier = Modifier.size(35.dp)
                 )
@@ -118,10 +121,12 @@ fun HomeScreen(
         Prayer.entries.forEach { prayer ->
             PrayerButton(
                 prayerName = prayer.prayerName,
-                prayerIcon = { Image(painter = painterResource(id = prayer.icon), contentDescription = prayer.prayerName) },
+                prayerIcon = { Image(painter = painterResource(id = prayer.icon), contentDescription = prayer.prayerName,modifier = Modifier.size(50.dp)) },
                 prayerStatus = prayerStatuses[prayer] ?: PrayerStatus.NONE,
-                onClick = { showSheet(prayer) }
-            )
+                prayerTime = prayerTimes[prayer] ?: "--:--",
+            ) {
+                showSheet(prayer)
+            }
         }
 
         PrayerBottomSheet(
@@ -137,5 +142,6 @@ fun HomeScreen(
         )
     }
 }
+
 
 

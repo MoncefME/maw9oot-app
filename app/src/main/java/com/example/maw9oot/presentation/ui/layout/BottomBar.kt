@@ -19,19 +19,42 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.maw9oot.presentation.navigation.Screens
+import com.example.maw9oot.R
 
 @Composable
-fun BottomNavBar(navController: NavHostController, items: List<BottomNavItem>) {
+fun BottomNavBar(navController: NavHostController) {
+    val bottomNavItems = listOf(
+        BottomNavItem(
+            title = stringResource(id = R.string.home),
+            route = Screens.HomeScreen.route,
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home
+        ),
+        BottomNavItem(
+            title = stringResource(id = R.string.stats),
+            route = Screens.StatScreen.route,
+            selectedIcon = Icons.Filled.Menu,
+            unselectedIcon = Icons.Filled.Menu
+        ),
+        BottomNavItem(
+            title = stringResource(id = R.string.settings),
+            route = Screens.SettingScreen.route,
+            selectedIcon = Icons.Filled.Settings,
+            unselectedIcon = Icons.Outlined.Settings
+        ),
+    )
+
     var selected by remember { mutableIntStateOf(0) }
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primary,
     ) {
-        items.forEachIndexed { index, bottomNavItem ->
+        bottomNavItems.forEachIndexed { index, bottomNavItem ->
             NavigationBarItem(
                 selected = selected == index,
                 onClick = {
@@ -75,23 +98,23 @@ data class BottomNavItem(
     val unselectedIcon: ImageVector,
 )
 
-val bottomNavItems = listOf(
-    BottomNavItem(
-        title = "Home",
-        route = Screens.HomeScreen.route,
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home
-    ),
-    BottomNavItem(
-        title = "Stats",
-        route = Screens.StatScreen.route,
-        selectedIcon = Icons.Filled.Menu,
-        unselectedIcon = Icons.Filled.Menu
-    ),
-    BottomNavItem(
-        title = "Settings",
-        route = Screens.SettingScreen.route,
-        selectedIcon = Icons.Filled.Settings,
-        unselectedIcon = Icons.Outlined.Settings
-    ),
-)
+//val bottomNavItems = listOf(
+//    BottomNavItem(
+//        title = "Home",
+//        route = Screens.HomeScreen.route,
+//        selectedIcon = Icons.Filled.Home,
+//        unselectedIcon = Icons.Outlined.Home
+//    ),
+//    BottomNavItem(
+//        title = "Stats",
+//        route = Screens.StatScreen.route,
+//        selectedIcon = Icons.Filled.Menu,
+//        unselectedIcon = Icons.Filled.Menu
+//    ),
+//    BottomNavItem(
+//        title = "Settings",
+//        route = Screens.SettingScreen.route,
+//        selectedIcon = Icons.Filled.Settings,
+//        unselectedIcon = Icons.Outlined.Settings
+//    ),
+//)

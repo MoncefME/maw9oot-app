@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.maw9oot.R
@@ -55,7 +56,7 @@ fun PrayerReminderSetting(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ){
             Icon(painter = painterResource(id = R.drawable.baseline_access_time_24), contentDescription ="Dark Theme Icon" )
-            Text(text = "Prayer Notification")
+            Text(text = stringResource(id = R.string.setting_prayer_notif))
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -69,7 +70,7 @@ fun PrayerReminderSetting(
                         containerColor = Color.Transparent
                     ),
                 ) {
-                    Text(text = "$delay min", fontSize = 18.sp)
+                    Text(text = "$delay ${stringResource(id = R.string.time_minutes)}", fontSize = 18.sp)
                 }
             }
             Switch(checked = isEnabled, onCheckedChange = onToggle)

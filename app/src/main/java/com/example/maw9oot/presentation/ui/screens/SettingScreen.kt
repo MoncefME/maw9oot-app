@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,6 +18,7 @@ import com.example.maw9oot.presentation.ui.components.settings.DailyReminderSett
 import com.example.maw9oot.presentation.ui.components.settings.DarkThemeSetting
 import com.example.maw9oot.presentation.ui.components.settings.LanguageSetting
 import com.example.maw9oot.presentation.ui.components.settings.PrayerReminderSetting
+import com.example.maw9oot.presentation.ui.components.settings.PrayerTimesSync
 import com.example.maw9oot.presentation.ui.components.settings.SecuritySetting
 import com.example.maw9oot.presentation.viewmodel.SettingsViewModel
 
@@ -32,6 +34,7 @@ fun SettingScreen(
     val isPrayerReminderEnabled by settingsViewModel.isPrayerReminderEnabled.collectAsState(initial = false)
     val prayerReminderDelay by settingsViewModel.prayerReminderDelay.collectAsState(initial = "15")
     val isSecure by settingsViewModel.isSecurityEnabled.collectAsState(initial = false)
+    val isPrayerTimesSynced by settingsViewModel.isPrayerTimesSynced.collectAsState()
 
     Column(
         modifier = Modifier
@@ -62,6 +65,14 @@ fun SettingScreen(
         SecuritySetting(isSecure = isSecure, onToggle = {
             settingsViewModel.enableSecurity(it)
         })
+
+
+        PrayerTimesSync(
+            isSync = isPrayerTimesSynced,
+            onClick = {
+                settingsViewModel.syncPrayerTimes()
+            }
+        )
 
     }
 }

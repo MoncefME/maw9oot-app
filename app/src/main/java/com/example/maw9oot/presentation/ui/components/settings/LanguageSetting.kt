@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.maw9oot.R
 
@@ -28,7 +29,7 @@ fun LanguageSetting(language: String, onToggle: (Boolean) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ){
             Icon(painter = painterResource(id = R.drawable.baseline_language_24), contentDescription ="Dark Theme Icon" )
-            Text(text = "Arabic")
+            Text(text = stringResource(id = R.string.setting_language))
         }
         Switch(checked = language == "ar", onCheckedChange = onToggle)
     }

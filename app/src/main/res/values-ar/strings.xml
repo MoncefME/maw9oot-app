@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">موقوت</string>
+    <string name="setting_language">العربية</string>
+    <string name="setting_dark_theme">الوضع الداكن</string>
+    <string name="settings_daily_reminder">التذكير اليومي</string>
+    <string name="setting_prayer_notif">التنبيه بعد الصلاة</string>
+    <string name="setting_security">الحماية</string>
+    <string name="timepicker_dismiss">إلغاء</string>
+    <string name="timepicker_ok">موافقة</string>
+    <string name="settings">الإعدادات</string>
+    <string name="home">الرئيسية</string>
+    <string name="stats">إحصاءات</string>
+    <string name="time_minutes">دقيقة</string>
+    <string name="setting_sync_times">مزامنة أوقات الصلاة</string>
+</resources>

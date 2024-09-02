@@ -35,6 +35,7 @@ class BiometricsPromptManager(
             .setTitle(title)
             .setDescription(description)
             .setAllowedAuthenticators(authenticators)
+            .setConfirmationRequired(false)
 
         if(Build.VERSION.SDK_INT < 30) {
             promptInfo.setNegativeButtonText("Cancel")

@@ -24,6 +24,7 @@ fun PrayerButton(
     prayerName: String,
     prayerIcon: @Composable () -> Unit,
     prayerStatus: PrayerStatus,
+    prayerTime: String?, // Add this parameter
     onClick: () -> Unit
 ) {
     val statusColor = when (prayerStatus) {
@@ -54,7 +55,24 @@ fun PrayerButton(
                     .padding(vertical = 8.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                prayerIcon()
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(end = 8.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    prayerIcon()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    prayerTime?.let {
+                        Text(
+                            text = it.substring(0, 5),
+                            fontSize = 14.sp, // Font size for prayer time
+                            fontWeight = FontWeight.Normal
+                        )
+                    }
+                }
+
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = prayerName,
@@ -62,6 +80,7 @@ fun PrayerButton(
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFontFamily
                 )
+
             }
             Column(
                 modifier = Modifier

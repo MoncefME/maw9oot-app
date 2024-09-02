@@ -1,6 +1,6 @@
 package com.example.maw9oot.data.repository
 
-import com.example.maw9oot.data.local.PrayerLogDao
+import com.example.maw9oot.data.local.PrayerDatabase
 import com.example.maw9oot.data.model.PrayerLog
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -11,27 +11,15 @@ import kotlinx.coroutines.flow.first
 
 
 class PrayerLogRepository @Inject constructor(
-    private val prayerLogDao: PrayerLogDao
+    private val prayerDatabase: PrayerDatabase
 ) {
 
-    suspend fun insertPrayerLog(prayerLog: PrayerLog) {
-        prayerLogDao.insertPrayerLog(prayerLog)
-    }
-
-    fun getPrayerLogsByDate(date: String): Flow<List<PrayerLog>> {
-        return prayerLogDao.getPrayerLogsByDate(date)
-    }
-
-    fun getAllPrayerLogs(): Flow<List<PrayerLog>> {
-        return prayerLogDao.getAllPrayerLogs()
-    }
-
     suspend fun upsertPrayerLog(date: String, prayerType: String, status: String) {
-        val existingLog = prayerLogDao.getPrayerLog(date, prayerType)
+        val existingLog = prayerDatabase.prayerLogDao().getPrayerLog(date, prayerType)
         if (existingLog != null) {
-            prayerLogDao.updatePrayerStatus(date, prayerType, status)
+            prayerDatabase.prayerLogDao().updatePrayerStatus(date, prayerType, status)
         } else {
-            prayerLogDao.insertPrayerLog(
+            prayerDatabase.prayerLogDao().insertPrayerLog(
                 PrayerLog(
                     date = date,
                     prayerType = prayerType,
@@ -42,14 +30,14 @@ class PrayerLogRepository @Inject constructor(
     }
 
     fun getPrayersForDays(): Flow<List<List<PrayerLog>>> {
-        return prayerLogDao.getPrayersBetweenDates()
+        return prayerDatabase.prayerLogDao().getPrayersBetweenDates()
             .map { prayers ->
                 prayers.groupBy { it.date }.values.toList()
             }
     }
 
     suspend fun getPrayerStatusesForDate(date: String): Map<Prayer, PrayerStatus> {
-        val prayerLogs = prayerLogDao.getPrayerLogsByDate(date).first()
+        val prayerLogs = prayerDatabase.prayerLogDao().getPrayerLogsByDate(date).first()
         return prayerLogs.associate { log ->
             Prayer.fromName(log.prayerType) to PrayerStatus.valueOf(log.status)
         }

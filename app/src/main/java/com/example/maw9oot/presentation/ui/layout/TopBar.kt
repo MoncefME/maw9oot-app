@@ -12,12 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.maw9oot.presentation.navigation.Screens
 import java.text.SimpleDateFormat
+import com.example.maw9oot.R
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,9 +29,9 @@ fun TopBar(navController: NavHostController) {
     val currentRoute = navBackStackEntry.value?.destination?.route
 
     val title = when (currentRoute) {
-        Screens.HomeScreen.route -> "Home"
-        Screens.StatScreen.route -> "Stats"
-        Screens.SettingScreen.route -> "Settings"
+        Screens.HomeScreen.route -> stringResource(id = R.string.home)
+        Screens.StatScreen.route -> stringResource(id = R.string.stats)
+        Screens.SettingScreen.route -> stringResource(id = R.string.settings)
         else -> "Maw9oot"
     }
 

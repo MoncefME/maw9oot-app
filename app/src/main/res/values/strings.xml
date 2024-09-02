@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Maw9oot</string>
+    <string name="setting_language">Arabic</string>
+    <string name="setting_dark_theme">Dark Theme</string>
+    <string name="settings_daily_reminder">Daily Reminder</string>
+    <string name="setting_prayer_notif">Prayer Notification</string>
+    <string name="setting_security">Security</string>
+    <string name="timepicker_dismiss">Dismiss</string>
+    <string name="timepicker_ok">OK</string>
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="stats">Stats</string>
+    <string name="time_minutes">min</string>
+    <string name="setting_sync_times">Prayer Times Sync</string>
 </resources>
