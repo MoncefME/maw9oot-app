@@ -19,14 +19,14 @@ class BiometricsPromptManager(
 
 
     fun showBiometricPrompt(
-        title:String,
-        description:String
-    ){
+        title: String,
+        description: String
+    ) {
         val manager = BiometricManager.from(activity)
 
-        val authenticators = if(Build.VERSION.SDK_INT >= 30) {
+        val authenticators = if (Build.VERSION.SDK_INT >= 30) {
             BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-        }else{
+        } else {
             BIOMETRIC_STRONG
         }
 
@@ -37,23 +37,26 @@ class BiometricsPromptManager(
             .setAllowedAuthenticators(authenticators)
             .setConfirmationRequired(false)
 
-        if(Build.VERSION.SDK_INT < 30) {
+        if (Build.VERSION.SDK_INT < 30) {
             promptInfo.setNegativeButtonText("Cancel")
         }
 
-        when(manager.canAuthenticate(authenticators)) {
+        when (manager.canAuthenticate(authenticators)) {
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
                 resultChannel.trySend(BiometricResult.HardwareUnavailable)
                 return
             }
+
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
                 resultChannel.trySend(BiometricResult.FeatureUnavailable)
                 return
             }
+
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 resultChannel.trySend(BiometricResult.AuthenticationNotSet)
                 return
             }
+
             else -> Unit
         }
 
@@ -81,11 +84,11 @@ class BiometricsPromptManager(
     }
 
     sealed interface BiometricResult {
-        data object HardwareUnavailable: BiometricResult
-        data object FeatureUnavailable: BiometricResult
-        data class AuthenticationError(val error: String): BiometricResult
-        data object AuthenticationFailed: BiometricResult
-        data object AuthenticationSuccess: BiometricResult
-        data object AuthenticationNotSet: BiometricResult
+        data object HardwareUnavailable : BiometricResult
+        data object FeatureUnavailable : BiometricResult
+        data class AuthenticationError(val error: String) : BiometricResult
+        data object AuthenticationFailed : BiometricResult
+        data object AuthenticationSuccess : BiometricResult
+        data object AuthenticationNotSet : BiometricResult
     }
 }

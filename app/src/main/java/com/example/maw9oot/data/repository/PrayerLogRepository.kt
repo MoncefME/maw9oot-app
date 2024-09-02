@@ -9,7 +9,6 @@ import com.example.maw9oot.presentation.ui.enums.Prayer
 import com.example.maw9oot.presentation.ui.enums.PrayerStatus
 import kotlinx.coroutines.flow.first
 
-
 class PrayerLogRepository @Inject constructor(
     private val prayerDatabase: PrayerDatabase
 ) {

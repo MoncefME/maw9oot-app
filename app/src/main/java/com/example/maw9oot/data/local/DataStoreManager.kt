@@ -43,7 +43,7 @@ class DataStoreManager @Inject constructor(@ApplicationContext private val conte
 
     val prayerReminderDelay: Flow<String> = context.dataStore.data
         .map { preferences ->
-            preferences[PRAYER_REMINDER_DELAY_KEY] ?: "15" // Default to 15 minutes
+            preferences[PRAYER_REMINDER_DELAY_KEY] ?: "15"
         }
 
 
@@ -67,6 +67,7 @@ class DataStoreManager @Inject constructor(@ApplicationContext private val conte
             }.first()
         }
     }
+
     val language : Flow<String> = context.dataStore.data
         .map{ preferences->
             preferences[LANGUAGE_KEY] ?: "en"

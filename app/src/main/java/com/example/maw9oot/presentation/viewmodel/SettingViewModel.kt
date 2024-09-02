@@ -110,7 +110,6 @@ class SettingsViewModel @Inject constructor(
             dataStoreManager.setPrayerReminderEnabled(enabled)
             dataStoreManager.setPrayerReminderDelay(delayMinutes)
             if (enabled) {
-                // Example prayer times; replace with actual fetched times
                 val prayerTimes = listOf("05:00", "12:00", "15:00", "18:00", "20:00")
                 val delay = delayMinutes.toIntOrNull() ?: 15
                 for (time in prayerTimes) {
@@ -145,5 +144,4 @@ class SettingsViewModel @Inject constructor(
             prayerTimesRepository.fetchAndStorePrayerTimes(latitude, longitude, year)
         }
     }
-
 }

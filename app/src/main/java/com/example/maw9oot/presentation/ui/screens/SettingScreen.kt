@@ -30,7 +30,9 @@ fun SettingScreen(
     val isDarkTheme by settingsViewModel.isDarkTheme.collectAsState(initial = false)
     val language by settingsViewModel.language.collectAsState(initial = "en")
     val notificationTime by settingsViewModel.notificationTime.collectAsState(initial = "")
-    val isDailyNotificationEnabled by settingsViewModel.isDailyNotificationEnabled.collectAsState(initial = false)
+    val isDailyNotificationEnabled by settingsViewModel.isDailyNotificationEnabled.collectAsState(
+        initial = false
+    )
     val isPrayerReminderEnabled by settingsViewModel.isPrayerReminderEnabled.collectAsState(initial = false)
     val prayerReminderDelay by settingsViewModel.prayerReminderDelay.collectAsState(initial = "15")
     val isSecure by settingsViewModel.isSecurityEnabled.collectAsState(initial = false)
@@ -58,14 +60,17 @@ fun SettingScreen(
         PrayerReminderSetting(
             isPrayerReminderEnabled,
             prayerReminderDelay,
-            onDelaySelected = { formattedDelay -> settingsViewModel.setPrayerReminderDelay(formattedDelay) },
+            onDelaySelected = { formattedDelay ->
+                settingsViewModel.setPrayerReminderDelay(
+                    formattedDelay
+                )
+            },
             onToggle = { settingsViewModel.togglePrayerReminder(it, prayerReminderDelay) }
         )
 
         SecuritySetting(isSecure = isSecure, onToggle = {
             settingsViewModel.enableSecurity(it)
         })
-
 
         PrayerTimesSync(
             isSync = isPrayerTimesSynced,

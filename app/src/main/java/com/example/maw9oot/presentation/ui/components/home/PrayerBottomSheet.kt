@@ -33,16 +33,13 @@ fun PrayerBottomSheet(
 
 
     BottomSheet(
-        dragHandle = {},
-        state = sheetState,
-        modifier = modifier
-            .fillMaxWidth()
+        dragHandle = {}, state = sheetState, modifier = modifier.fillMaxWidth()
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(30.dp)
-        ){
+        ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
@@ -65,7 +62,6 @@ fun PrayerBottomSheet(
                 )
             }
 
-
             Spacer(modifier = Modifier.height(16.dp))
 
             val statuses = PrayerStatus.entries.filter { it != PrayerStatus.NONE }
@@ -84,22 +80,20 @@ fun PrayerBottomSheet(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = currentStatus == status,
-                        onClick = {
+                        selected = currentStatus == status, onClick = {
                             selectedStatus = status
                             onStatusChange(status.displayName)
                             scope.launch { sheetState.collapse(animate = true) }
-                        },
-                        colors = RadioButtonDefaults.colors(
+                        }, colors = RadioButtonDefaults.colors(
                             selectedColor = MaterialTheme.colorScheme.tertiary,
                             unselectedColor = MaterialTheme.colorScheme.primary
                         )
                     )
                     Row(
-                        modifier= Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Text(
                             text = status.displayName,
                             textAlign = TextAlign.Start,

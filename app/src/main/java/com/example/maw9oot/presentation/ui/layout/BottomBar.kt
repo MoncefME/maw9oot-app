@@ -97,24 +97,3 @@ data class BottomNavItem(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
 )
-
-//val bottomNavItems = listOf(
-//    BottomNavItem(
-//        title = "Home",
-//        route = Screens.HomeScreen.route,
-//        selectedIcon = Icons.Filled.Home,
-//        unselectedIcon = Icons.Outlined.Home
-//    ),
-//    BottomNavItem(
-//        title = "Stats",
-//        route = Screens.StatScreen.route,
-//        selectedIcon = Icons.Filled.Menu,
-//        unselectedIcon = Icons.Filled.Menu
-//    ),
-//    BottomNavItem(
-//        title = "Settings",
-//        route = Screens.SettingScreen.route,
-//        selectedIcon = Icons.Filled.Settings,
-//        unselectedIcon = Icons.Outlined.Settings
-//    ),
-//)

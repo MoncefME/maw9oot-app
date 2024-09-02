@@ -19,5 +19,4 @@ object SettingsModule {
     fun provideDataStoreManager(@ApplicationContext context: Context): DataStoreManager {
         return DataStoreManager(context)
     }
-
 }

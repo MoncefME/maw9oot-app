@@ -27,8 +27,11 @@ fun DarkThemeSetting(isDarkTheme: Boolean, onToggle: (Boolean) -> Unit) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            Icon(painter = painterResource(id = R.drawable.baseline_dark_mode_24), contentDescription ="Dark Theme Icon" )
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_dark_mode_24),
+                contentDescription = "Dark Theme Icon"
+            )
             Text(text = stringResource(id = R.string.setting_dark_theme))
         }
         Switch(checked = isDarkTheme, onCheckedChange = onToggle)

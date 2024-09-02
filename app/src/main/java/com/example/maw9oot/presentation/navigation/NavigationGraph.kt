@@ -22,5 +22,4 @@ fun NavigationGraph(navController: NavHostController){
             SettingScreen()
         }
     }
-
 }

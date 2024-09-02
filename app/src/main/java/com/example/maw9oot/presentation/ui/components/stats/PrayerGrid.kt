@@ -37,7 +37,7 @@ fun PrayerGrid(
     val fontSize = 18.sp
 
 
-    val prayers  = Prayer.entries.map { it.prayerName }
+    val prayers = Prayer.entries.map { it.prayerName }
 
     var currentMonthYear by remember { mutableStateOf("") }
 
@@ -66,92 +66,95 @@ fun PrayerGrid(
         }
     }
 
-        Row(
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(245.dp),
+    ) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(245.dp),
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(8.dp))
+                .width(85.dp)
+                .padding(end = paddingMedium),
         ) {
-            Column(
+            Box(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(8.dp))
+                    .padding(vertical = paddingSmall)
+                    .clip(RoundedCornerShape(2.dp))
                     .width(85.dp)
-                    .padding(end=paddingMedium),
+                    .height(40.dp)
+                    .padding(end = paddingSmall, start = paddingMedium),
+                contentAlignment = Alignment.BottomEnd,
             ) {
+                Text(
+                    text = currentMonthYear,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = paddingSmall, end = paddingSmall)
+                )
+            }
+
+            prayers.forEach { prayer ->
                 Box(
                     modifier = Modifier
                         .padding(vertical = paddingSmall)
                         .clip(RoundedCornerShape(2.dp))
                         .width(85.dp)
-                        .height(40.dp)
-                        .padding(end = paddingSmall, start = paddingMedium),
-                    contentAlignment = Alignment.BottomEnd,
+                        .height(iconSize)
+                        .padding(start = paddingSmall)
                 ) {
                     Text(
-                        text = currentMonthYear,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = paddingSmall, end = paddingSmall)
+                        text = prayer,
+                        fontSize = 15.sp,
+                        modifier = Modifier.align(Alignment.TopEnd)
                     )
                 }
-
-                prayers.forEach { prayer ->
-                    Box(
-                        modifier = Modifier
-                            .padding(vertical = paddingSmall)
-                            .clip(RoundedCornerShape(2.dp))
-                            .width(85.dp)
-                            .height(iconSize)
-                            .padding( start = paddingSmall)
-                    ) {
-                        Text(text = prayer, fontSize = 15.sp, modifier = Modifier.align(Alignment.TopEnd))
-                    }
-                }
             }
+        }
 
-            LazyRow(
-                state = scrollState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = paddingMedium),
-            ) {
-                items(displayedDays) { date ->
-                    val dayLogs = days.find { it.firstOrNull()?.date?.substring(0, 10) == date } ?: emptyList()
+        LazyRow(
+            state = scrollState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = paddingMedium),
+        ) {
+            items(displayedDays) { date ->
+                val dayLogs =
+                    days.find { it.firstOrNull()?.date?.substring(0, 10) == date } ?: emptyList()
 
-                    Column(
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = paddingSmall)
+                        .clip(RoundedCornerShape(8.dp))
+                        .width(iconSize),
+                    verticalArrangement = Arrangement.Top
+                ) {
+                    Text(
+                        text = date.substring(8),
+                        fontSize = fontSize,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
-                            .padding(horizontal = paddingSmall)
-                            .clip(RoundedCornerShape(8.dp))
-                            .width(iconSize),
-                        verticalArrangement = Arrangement.Top
-                    ) {
-                        Text(
-                            text = date.substring(8),
-                            fontSize = fontSize,
-                            fontWeight = FontWeight.Bold,
+                            .padding(bottom = paddingSmall)
+                            .align(Alignment.CenterHorizontally)
+                    )
+
+                    prayers.forEach { prayer ->
+                        val prayerLog = dayLogs.find { it.prayerType == prayer }
+                        val status = prayerLog?.status ?: "Missed"
+                        Box(
                             modifier = Modifier
-                                .padding(bottom = paddingSmall)
-                                .align(Alignment.CenterHorizontally)
-                        )
-
-                        prayers.forEach { prayer ->
-                            val prayerLog = dayLogs.find { it.prayerType == prayer }
-                            val status = prayerLog?.status ?: "Missed"
-                            Box(
-                                modifier = Modifier
-                                    .padding(vertical = paddingSmall)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(getStatusColor(status))
-                                    .aspectRatio(1f)
-                                    .width(boxSize)
-                            ) {
-
-                            }
-                        }
+                                .padding(vertical = paddingSmall)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(getStatusColor(status))
+                                .aspectRatio(1f)
+                                .width(boxSize)
+                        ) {}
                     }
                 }
             }
         }
+    }
 }
 
 fun getStatusColor(status: String): Color {

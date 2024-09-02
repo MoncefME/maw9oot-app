@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 data class Challenge(
-    val month : String,
-    val prayer : String,
+    val month: String,
+    val prayer: String,
     val description: String,
     val currentStreak: Int,
     val maxStreak: Int

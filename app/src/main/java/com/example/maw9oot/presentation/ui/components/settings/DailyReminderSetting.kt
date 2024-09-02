@@ -54,8 +54,11 @@ fun DailyReminderSetting(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            Icon(painter = painterResource(id = R.drawable.baseline_notifications_active_24), contentDescription ="Dark Theme Icon" )
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_notifications_active_24),
+                contentDescription = "Dark Theme Icon"
+            )
             Text(text = stringResource(id = R.string.settings_daily_reminder))
         }
         Row(

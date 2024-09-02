@@ -54,10 +54,13 @@ fun HomeScreen(
             navController.context,
             { _, selectedYear, selectedMonth, selectedDay ->
                 calendar.set(selectedYear, selectedMonth, selectedDay)
-                val newDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+                val newDate =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
                 homeViewModel.updateSelectedDate(newDate)
             },
-            calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         )
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis() // Prevent future dates
         datePickerDialog.show()
@@ -76,10 +79,18 @@ fun HomeScreen(
             IconButton(
                 onClick = {
                     val prevDate = Calendar.getInstance().apply {
-                        time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(selectedDate)!!
+                        time = SimpleDateFormat(
+                            "yyyy-MM-dd",
+                            Locale.getDefault()
+                        ).parse(selectedDate)!!
                         add(Calendar.DAY_OF_MONTH, -1)
                     }
-                    homeViewModel.updateSelectedDate(SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(prevDate.time))
+                    homeViewModel.updateSelectedDate(
+                        SimpleDateFormat(
+                            "yyyy-MM-dd",
+                            Locale.getDefault()
+                        ).format(prevDate.time)
+                    )
                 }
             ) {
                 Icon(
@@ -99,10 +110,14 @@ fun HomeScreen(
             IconButton(
                 onClick = {
                     val nextDate = Calendar.getInstance().apply {
-                        time = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(selectedDate)!!
+                        time = SimpleDateFormat(
+                            "yyyy-MM-dd",
+                            Locale.getDefault()
+                        ).parse(selectedDate)!!
                         add(Calendar.DAY_OF_MONTH, 1)
                     }
-                    val newDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(nextDate.time)
+                    val newDate =
+                        SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(nextDate.time)
                     if (newDate <= currentDate) {
                         homeViewModel.updateSelectedDate(newDate)
                     }
@@ -121,7 +136,13 @@ fun HomeScreen(
         Prayer.entries.forEach { prayer ->
             PrayerButton(
                 prayerName = prayer.prayerName,
-                prayerIcon = { Image(painter = painterResource(id = prayer.icon), contentDescription = prayer.prayerName,modifier = Modifier.size(50.dp)) },
+                prayerIcon = {
+                    Image(
+                        painter = painterResource(id = prayer.icon),
+                        contentDescription = prayer.prayerName,
+                        modifier = Modifier.size(50.dp)
+                    )
+                },
                 prayerStatus = prayerStatuses[prayer] ?: PrayerStatus.NONE,
                 prayerTime = prayerTimes[prayer] ?: "--:--",
             ) {

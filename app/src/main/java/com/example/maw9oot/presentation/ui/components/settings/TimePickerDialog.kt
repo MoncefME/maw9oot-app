@@ -17,12 +17,12 @@ fun TimePickerDialog(
         onDismissRequest = onDismiss,
         dismissButton = {
             TextButton(onClick = { onDismiss() }) {
-                Text(text= stringResource(id = R.string.timepicker_dismiss))
+                Text(text = stringResource(id = R.string.timepicker_dismiss))
             }
         },
         confirmButton = {
             TextButton(onClick = { onConfirm() }) {
-                Text(text= stringResource(id = R.string.timepicker_ok))
+                Text(text = stringResource(id = R.string.timepicker_ok))
             }
         },
         text = { content() }

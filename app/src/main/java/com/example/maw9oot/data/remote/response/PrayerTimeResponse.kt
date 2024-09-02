@@ -3,7 +3,7 @@ package com.example.maw9oot.data.remote.response
 data class PrayerTimesResponse(
     val code: Int,
     val status: String,
-    val data: Map<String, List<PrayerData>> // Map with string keys and list of PrayerData values
+    val data: Map<String, List<PrayerData>>
 )
 
 data class PrayerData(
@@ -89,8 +89,8 @@ data class Method(
 )
 
 data class Params(
-    val Fajr: Double, // Use Double for numerical values
-    val Isha: String  // Use String for values with units
+    val Fajr: Double,
+    val Isha: String
 )
 
 

@@ -28,6 +28,7 @@ class StatViewModel @Inject constructor(
                 .collect { processedLogs -> _days.value = processedLogs }
         }
     }
+
     private fun preprocessLogs(logs: List<List<PrayerLog>>): List<List<PrayerLog>> {
         if (logs.isEmpty()) return List(8) { emptyList() }
 
@@ -35,15 +36,19 @@ class StatViewModel @Inject constructor(
         val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
 
-        val startDate = logs.firstOrNull()?.firstOrNull()?.date?.substring(0, 10) ?: LocalDate.now().toString()
-        val endDate = logs.lastOrNull()?.firstOrNull()?.date?.substring(0, 10) ?: LocalDate.now().toString()
+        val startDate =
+            logs.firstOrNull()?.firstOrNull()?.date?.substring(0, 10) ?: LocalDate.now().toString()
+        val endDate =
+            logs.lastOrNull()?.firstOrNull()?.date?.substring(0, 10) ?: LocalDate.now().toString()
         val start = LocalDate.parse(startDate, dateFormat)
         val end = LocalDate.parse(endDate, dateFormat)
 
 
         var currentDate = start
         while (currentDate <= end) {
-            val dayLogs = logs.find { it.firstOrNull()?.date?.substring(0, 10) == currentDate.toString() } ?: emptyList()
+            val dayLogs =
+                logs.find { it.firstOrNull()?.date?.substring(0, 10) == currentDate.toString() }
+                    ?: emptyList()
             allDays.add(dayLogs)
             currentDate = currentDate.plusDays(1)
         }

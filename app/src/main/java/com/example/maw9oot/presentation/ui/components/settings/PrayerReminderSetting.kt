@@ -54,8 +54,11 @@ fun PrayerReminderSetting(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            Icon(painter = painterResource(id = R.drawable.baseline_access_time_24), contentDescription ="Dark Theme Icon" )
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_access_time_24),
+                contentDescription = "Dark Theme Icon"
+            )
             Text(text = stringResource(id = R.string.setting_prayer_notif))
         }
         Row(
@@ -70,7 +73,10 @@ fun PrayerReminderSetting(
                         containerColor = Color.Transparent
                     ),
                 ) {
-                    Text(text = "$delay ${stringResource(id = R.string.time_minutes)}", fontSize = 18.sp)
+                    Text(
+                        text = "$delay ${stringResource(id = R.string.time_minutes)}",
+                        fontSize = 18.sp
+                    )
                 }
             }
             Switch(checked = isEnabled, onCheckedChange = onToggle)

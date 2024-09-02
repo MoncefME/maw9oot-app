@@ -53,7 +53,3 @@ fun TopBar(navController: NavHostController) {
     )
 }
 
-//fun getCurrentDate(): String {
-//    val calendar = Calendar.getInstance()
-//    return SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(calendar.time)
-//}

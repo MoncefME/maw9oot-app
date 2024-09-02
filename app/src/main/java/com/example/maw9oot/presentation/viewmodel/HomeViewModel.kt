@@ -75,8 +75,10 @@ class HomeViewModel @Inject constructor(
 
     private fun getPrayerTimesForDate(date: String) {
         viewModelScope.launch {
-            val prayerTimes = prayerTimesRepository.getPrayerTimesForDate(convertToDbDateFormat(date))
-            val prayerTimeMap = prayerTimes.associateBy({ Prayer.fromName(it.prayerName) }, { it.time })
+            val prayerTimes =
+                prayerTimesRepository.getPrayerTimesForDate(convertToDbDateFormat(date))
+            val prayerTimeMap =
+                prayerTimes.associateBy({ Prayer.fromName(it.prayerName) }, { it.time })
             _prayerTimeForDate.value = prayerTimeMap
         }
     }

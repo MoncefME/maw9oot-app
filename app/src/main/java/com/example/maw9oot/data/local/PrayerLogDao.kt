@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Upsert
 import com.example.maw9oot.data.model.PrayerLog
 import kotlinx.coroutines.flow.Flow
 

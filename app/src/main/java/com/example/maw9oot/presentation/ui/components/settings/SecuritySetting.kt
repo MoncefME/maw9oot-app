@@ -30,8 +30,11 @@ fun SecuritySetting(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
-            Icon(painter = painterResource(id = R.drawable.baseline_fingerprint_24), contentDescription ="Dark Theme Icon" )
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_fingerprint_24),
+                contentDescription = "Dark Theme Icon"
+            )
             Text(text = stringResource(id = R.string.setting_security))
         }
         Switch(checked = isSecure, onCheckedChange = onToggle)

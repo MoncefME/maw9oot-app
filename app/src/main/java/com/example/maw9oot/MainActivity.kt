@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Retrieve the saved language and apply it
         lifecycleScope.launch {
             val savedLanguage = dataStoreManager.language.first()
             setLocale(savedLanguage)

@@ -3,7 +3,7 @@ package com.example.maw9oot.presentation.ui.enums
 import androidx.compose.ui.graphics.Color
 import com.example.maw9oot.R
 
-enum class PrayerStatus(val displayName: String, val icon: Int,val color:Color) {
+enum class PrayerStatus(val displayName: String, val icon: Int, val color: Color) {
     MISSED("Missed", R.drawable.missed, Color(0xFFf14143)),
     LATE_ALONE("Late Alone", R.drawable.late_alone, Color(0xFFFF5722)),
     WITH_GROUP("With Group", R.drawable.group, Color(0xFF13B601)),
