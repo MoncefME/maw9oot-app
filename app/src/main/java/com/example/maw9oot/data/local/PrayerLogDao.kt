@@ -28,4 +28,7 @@ interface PrayerLogDao {
     @Query("SELECT * FROM prayer_log ORDER BY date")
     fun getPrayersBetweenDates(): Flow<List<PrayerLog>>
 
+    @Query("SELECT * FROM prayer_log WHERE strftime('%m', date) = :month AND strftime('%Y', date) = :year")
+    fun getPrayersForMonthYear(month: String, year: String): Flow<List<PrayerLog>>
+
 }

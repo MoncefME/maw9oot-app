@@ -1,4 +1,5 @@
 [versions]
+accompanistFlowlayout = "0.27.0"
 agp = "8.5.2"
 appcompat = "1.7.0"
 biometricVersion = "1.1.0"
@@ -30,6 +31,7 @@ okhttpVersion = "4.11.0"
 loggingInterceptor = "4.10.0"
 
 [libraries]
+accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistFlowlayout" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometricVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

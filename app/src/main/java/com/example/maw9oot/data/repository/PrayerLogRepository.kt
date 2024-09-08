@@ -1,5 +1,7 @@
 package com.example.maw9oot.data.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.maw9oot.data.local.PrayerDatabase
 import com.example.maw9oot.data.model.PrayerLog
 import kotlinx.coroutines.flow.Flow
@@ -8,6 +10,7 @@ import javax.inject.Inject
 import com.example.maw9oot.presentation.ui.enums.Prayer
 import com.example.maw9oot.presentation.ui.enums.PrayerStatus
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 
 class PrayerLogRepository @Inject constructor(
     private val prayerDatabase: PrayerDatabase
@@ -40,5 +43,11 @@ class PrayerLogRepository @Inject constructor(
         return prayerLogs.associate { log ->
             Prayer.fromName(log.prayerType) to PrayerStatus.valueOf(log.status)
         }
+    }
+
+    fun getPrayersForMonthYear(month: Int, year: Int): Flow<List<PrayerLog>> {
+        val formattedMonth = month.toString().padStart(2, '0')
+        val formattedYear = year.toString()
+        return prayerDatabase.prayerLogDao().getPrayersForMonthYear(formattedMonth, formattedYear)
     }
 }

@@ -1,6 +1,5 @@
 package com.example.maw9oot.presentation.ui.screens
 
-import android.app.DatePickerDialog
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -26,10 +25,12 @@ import com.example.maw9oot.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -43,27 +44,18 @@ fun HomeScreen(
     val calendar = Calendar.getInstance()
     val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
 
+    // DatePicker state
+    val currentTimeMillis = System.currentTimeMillis() // Get the current time in milliseconds
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = currentTimeMillis)
+    var showDialog by remember { mutableStateOf(false) }
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+
+    // Function to handle bottom sheet expansion
     fun showSheet(prayer: Prayer) {
         Log.d("HomeScreen", "prayerTimes: $prayerTimes")
         homeViewModel.selectPrayer(prayer)
         scope.launch { sheetState.expand(animate = true) }
-    }
-
-    fun showDatePickerDialog() {
-        val datePickerDialog = DatePickerDialog(
-            navController.context,
-            { _, selectedYear, selectedMonth, selectedDay ->
-                calendar.set(selectedYear, selectedMonth, selectedDay)
-                val newDate =
-                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
-                homeViewModel.updateSelectedDate(newDate)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePickerDialog.datePicker.maxDate = System.currentTimeMillis() // Prevent future dates
-        datePickerDialog.show()
     }
 
     Column(
@@ -100,9 +92,10 @@ fun HomeScreen(
                 )
             }
 
+            // Display DatePicker on click
             Text(
                 text = selectedDate,
-                modifier = Modifier.clickable { showDatePickerDialog() },
+                modifier = Modifier.clickable { showDialog = true },
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -133,6 +126,8 @@ fun HomeScreen(
         }
 
         Spacer(modifier = Modifier.height(10.dp))
+
+        // Display Prayer buttons
         Prayer.entries.forEach { prayer ->
             PrayerButton(
                 prayerName = prayer.prayerName,
@@ -162,7 +157,33 @@ fun HomeScreen(
             }
         )
     }
+
+    // Material 3 DatePicker
+    if (showDialog) {
+        DatePickerDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let { millis ->
+                        val newDate = LocalDate.ofEpochDay(millis / (24 * 60 * 60 * 1000))
+                            .format(dateFormatter)
+                        homeViewModel.updateSelectedDate(newDate)
+                    }
+                    showDialog = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(
+                state = datePickerState,
+                showModeToggle = true,
+            )
+        }
+    }
 }
-
-
-
