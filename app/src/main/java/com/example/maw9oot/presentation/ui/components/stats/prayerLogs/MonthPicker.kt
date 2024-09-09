@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.components.stats
+package com.example.maw9oot.presentation.ui.components.stats.prayerLogs
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState

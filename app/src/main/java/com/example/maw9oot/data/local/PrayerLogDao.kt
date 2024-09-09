@@ -31,4 +31,7 @@ interface PrayerLogDao {
     @Query("SELECT * FROM prayer_log WHERE strftime('%m', date) = :month AND strftime('%Y', date) = :year")
     fun getPrayersForMonthYear(month: String, year: String): Flow<List<PrayerLog>>
 
+    @Query("SELECT * FROM prayer_log WHERE date BETWEEN :startDate AND :endDate AND prayerType = :fajrType")
+    fun getFajrLogsForWeek(startDate: String, endDate: String, fajrType: String = "Fajr"): Flow<List<PrayerLog>>
+
 }

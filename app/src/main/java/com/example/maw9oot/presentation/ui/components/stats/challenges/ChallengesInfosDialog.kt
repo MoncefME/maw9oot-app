@@ -1,9 +1,8 @@
-package com.example.maw9oot.presentation.ui.components.stats
+package com.example.maw9oot.presentation.ui.components.stats.challenges
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun ScoreInfosDialog(onDismiss: () -> Unit) {
+fun ChallengesInfosDialog(onDismiss: () -> Unit) {
     Dialog(onDismissRequest = { onDismiss() }) {
         Card(
             modifier = Modifier
@@ -38,7 +37,7 @@ fun ScoreInfosDialog(onDismiss: () -> Unit) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Scoring is based on various factors such as performance, speed, and accuracy. Each prayer or task completion adds points based on how timely and consistently it's done.",
+                    text = "Dialog is based on various factors such as performance, speed, and accuracy. Each prayer or task completion adds points based on how timely and consistently it's done.",
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium
                 )

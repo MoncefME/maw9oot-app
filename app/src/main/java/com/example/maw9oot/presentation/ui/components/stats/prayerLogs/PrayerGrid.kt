@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.components.stats
+package com.example.maw9oot.presentation.ui.components.stats.prayerLogs
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,7 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.maw9oot.R
 import com.example.maw9oot.data.model.PrayerLog
 import com.example.maw9oot.presentation.ui.enums.Prayer
@@ -32,7 +34,9 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @Composable
-fun PrayerGrid(statViewModel: StatViewModel) {
+fun PrayerGrid(
+    statViewModel: StatViewModel= hiltViewModel()
+) {
     val days by statViewModel.days.observeAsState(emptyList())
     val prayers = Prayer.entries.map { it.prayerName }
 
@@ -182,10 +186,9 @@ fun TitleRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-        ,
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Bottom
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -202,29 +205,35 @@ fun TitleRow(
             )
         }
 
+        Button(
+            onClick = { isMonthPickerVisible.value = true },
+            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
+            modifier = Modifier.height(35.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0x888590ea),
+                contentColor = Color.Black
+            ),
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
 
-        Row(
-           modifier = Modifier
-               .clip(shape = RoundedCornerShape(16.dp))
-               .background(color = Color(0xFFc7d6ed))
-               .padding(vertical = 4.dp, horizontal = 8.dp)
-               .clickable { isMonthPickerVisible.value = true },
+                Text(
+                    text = currentMonthYear,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
 
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ){
+                Icon(
+                    imageVector = Icons.Filled.DateRange,
+                    contentDescription = "Infos"
+                )
 
-            Text(
-                text = currentMonthYear,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-            )
-
-            Icon(
-                imageVector = Icons.Filled.DateRange,
-                contentDescription = "Infos"
-            )
-
+            }
         }
+
+
 
 
         MonthPicker(
