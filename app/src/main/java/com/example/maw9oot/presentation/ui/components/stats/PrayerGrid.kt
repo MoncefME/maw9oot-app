@@ -1,11 +1,16 @@
 package com.example.maw9oot.presentation.ui.components.stats
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -13,14 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
+import com.example.maw9oot.R
 import com.example.maw9oot.data.model.PrayerLog
 import com.example.maw9oot.presentation.ui.enums.Prayer
 import com.example.maw9oot.presentation.viewmodel.StatViewModel
 import java.time.LocalDate
 import java.time.Month
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun PrayerGrid(statViewModel: StatViewModel) {
@@ -168,7 +177,7 @@ fun TitleRow(
 
     var currentMonthYear by remember { mutableStateOf("") }
 
-    currentMonthYear = "${Month.of(currentMonth)} $currentYear"
+    currentMonthYear = "${Month.of(currentMonth).getDisplayName(TextStyle.SHORT, Locale.ENGLISH).uppercase()} ${currentYear % 100}"
 
     Row(
         modifier = Modifier
@@ -178,18 +187,45 @@ fun TitleRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.Bottom
     ) {
-        Text(
-            text = "Monthly Prayers",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.prayer_log_icon),
+                modifier = Modifier.size(30.dp),
+                contentDescription = "Dark Theme Icon"
+            )
+            Text(
+                text = "Prayer Log",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
 
-        Text(
-            text = currentMonthYear,
-            modifier = Modifier.clickable { isMonthPickerVisible.value = true },
-            fontSize = 14.sp,
-            fontWeight = FontWeight.SemiBold,
-        )
+
+        Row(
+           modifier = Modifier
+               .clip(shape = RoundedCornerShape(16.dp))
+               .background(color = Color(0xFFc7d6ed))
+               .padding(vertical = 4.dp, horizontal = 8.dp)
+               .clickable { isMonthPickerVisible.value = true },
+
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ){
+
+            Text(
+                text = currentMonthYear,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+            )
+
+            Icon(
+                imageVector = Icons.Filled.DateRange,
+                contentDescription = "Infos"
+            )
+
+        }
+
 
         MonthPicker(
             visible = isMonthPickerVisible.value,
