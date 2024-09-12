@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.utils
+package com.example.maw9oot.data.utils
 
 import kotlinx.coroutines.channels.Channel
 import android.os.Build

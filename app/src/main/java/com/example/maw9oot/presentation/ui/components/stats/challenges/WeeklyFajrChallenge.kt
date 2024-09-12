@@ -22,9 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.maw9oot.R
 
 @Composable
 fun WeeklyFajrChallenge(
@@ -39,14 +41,14 @@ fun WeeklyFajrChallenge(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Weekly Fajr Challenge",
+            text = stringResource(id = R.string.WEEKLY_FAJR_CH_TITLE),
             fontSize = 20.sp,
             color = Color.Black,
             fontWeight = FontWeight.Bold
         )
 
         Text(
-            text = "Complete Fajr Prayer On Time",
+            text = stringResource(id = R.string.WEEKLY_FAJR_CH_DESC),
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black

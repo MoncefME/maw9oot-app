@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.enums
+package com.example.maw9oot.data.enums
 
 import androidx.compose.ui.graphics.Color
 import com.example.maw9oot.R

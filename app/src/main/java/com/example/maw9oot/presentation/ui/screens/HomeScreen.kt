@@ -19,8 +19,8 @@ import com.dokar.sheets.rememberBottomSheetState
 import com.example.maw9oot.R
 import com.example.maw9oot.presentation.ui.components.home.PrayerBottomSheet
 import com.example.maw9oot.presentation.ui.components.home.PrayerButton
-import com.example.maw9oot.presentation.ui.enums.Prayer
-import com.example.maw9oot.presentation.ui.enums.PrayerStatus
+import com.example.maw9oot.data.enums.Prayer
+import com.example.maw9oot.data.enums.PrayerStatus
 import com.example.maw9oot.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -44,16 +44,12 @@ fun HomeScreen(
     val calendar = Calendar.getInstance()
     val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
 
-    // DatePicker state
-    val currentTimeMillis = System.currentTimeMillis() // Get the current time in milliseconds
+    val currentTimeMillis = System.currentTimeMillis()
     val datePickerState = rememberDatePickerState(initialSelectedDateMillis = currentTimeMillis)
     var showDialog by remember { mutableStateOf(false) }
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-
-    // Function to handle bottom sheet expansion
     fun showSheet(prayer: Prayer) {
-        Log.d("HomeScreen", "prayerTimes: $prayerTimes")
         homeViewModel.selectPrayer(prayer)
         scope.launch { sheetState.expand(animate = true) }
     }
@@ -92,7 +88,6 @@ fun HomeScreen(
                 )
             }
 
-            // Display DatePicker on click
             Text(
                 text = selectedDate,
                 modifier = Modifier.clickable { showDialog = true },
@@ -127,7 +122,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // Display Prayer buttons
+
         Prayer.entries.forEach { prayer ->
             PrayerButton(
                 prayerName = prayer.prayerName,
@@ -158,7 +153,6 @@ fun HomeScreen(
         )
     }
 
-    // Material 3 DatePicker
     if (showDialog) {
         DatePickerDialog(
             onDismissRequest = { showDialog = false },

@@ -18,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,6 +40,10 @@ fun ScoreLeaderboard(
     statViewModel: StatViewModel = hiltViewModel()
 ) {
     var showDialog by remember { mutableStateOf(false) }
+
+    val currentStreak by statViewModel.currentStreak.collectAsState(initial = 0)
+    val currentPoints by statViewModel.currentPoints.collectAsState(initial = 0)
+    val currentGroupPercentage by statViewModel.currentGroupPercentage.collectAsState(initial = 0)
 
     Column(
         modifier = Modifier
@@ -66,7 +72,7 @@ fun ScoreLeaderboard(
                 )
 
             ) {
-                StreakCard()
+                StreakCard(currentStreak = currentStreak)
             }
             Card(
                 modifier = Modifier
@@ -77,7 +83,7 @@ fun ScoreLeaderboard(
                     containerColor = Color(0x8876b1fb)
                 )
             ) {
-                ScoreCard()
+                ScoreCard(currentPoints = currentPoints)
             }
 
             Card(
@@ -89,7 +95,7 @@ fun ScoreLeaderboard(
                     containerColor = Color(0x889be0a2)
                 )
             ) {
-                GroupPrayerCard()
+                GroupPrayerCard(currentGroupPercentage = currentGroupPercentage)
             }
         }
 
@@ -114,7 +120,7 @@ fun TitleRow(onShowDialog: (Boolean) -> Unit) {
                 contentDescription = "Dark Theme Icon"
             )
             Text(
-                text = "Scoreboard",
+                text = stringResource(id = R.string.STATS_SCOREBOARD),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
             )
@@ -135,7 +141,7 @@ fun TitleRow(onShowDialog: (Boolean) -> Unit) {
             ){
 
                 Text(
-                    text = "Infos",
+                    text = stringResource(id = R.string.STATS_INFOS),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                 )

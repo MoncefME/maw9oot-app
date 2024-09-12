@@ -1,13 +1,9 @@
 package com.example.maw9oot.presentation.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,46 +34,62 @@ fun SettingScreen(
     val isSecure by settingsViewModel.isSecurityEnabled.collectAsState(initial = false)
     val isPrayerTimesSynced by settingsViewModel.isPrayerTimesSynced.collectAsState()
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        DarkThemeSetting(isDarkTheme) { settingsViewModel.toggleTheme(it) }
 
-        LanguageSetting(language) { isArabic ->
-            settingsViewModel.setLanguage(if (isArabic) "ar" else "en")
+        item {
+            DarkThemeSetting(isDarkTheme) { settingsViewModel.toggleTheme(it) }
         }
 
-        DailyReminderSetting(
-            isDailyNotificationEnabled,
-            notificationTime,
-            onTimeSelected = { formattedTime -> settingsViewModel.setNotificationTime(formattedTime) },
-            onToggle = { settingsViewModel.toggleDailyNotification(it) }
-        )
-
-        PrayerReminderSetting(
-            isPrayerReminderEnabled,
-            prayerReminderDelay,
-            onDelaySelected = { formattedDelay ->
-                settingsViewModel.setPrayerReminderDelay(
-                    formattedDelay
-                )
-            },
-            onToggle = { settingsViewModel.togglePrayerReminder(it, prayerReminderDelay) }
-        )
-
-         SecuritySetting(isSecure = isSecure, onToggle = {
-            settingsViewModel.enableSecurity(it)
-        })
-
-        PrayerTimesSync(
-            isSync = isPrayerTimesSynced,
-            onClick = {
-                settingsViewModel.syncPrayerTimes()
+        item {
+            LanguageSetting(language) { isArabic ->
+                settingsViewModel.setLanguage(if (isArabic) "ar" else "en")
             }
-        )
+        }
 
+        item {
+            DailyReminderSetting(
+                isDailyNotificationEnabled,
+                notificationTime,
+                onTimeSelected = { formattedTime ->
+                    settingsViewModel.setNotificationTime(
+                        formattedTime
+                    )
+                },
+                onToggle = { settingsViewModel.toggleDailyNotification(it) }
+            )
+        }
+
+        item {
+            PrayerReminderSetting(
+                isPrayerReminderEnabled,
+                prayerReminderDelay,
+                onDelaySelected = { formattedDelay ->
+                    settingsViewModel.setPrayerReminderDelay(
+                        formattedDelay
+                    )
+                },
+                onToggle = { settingsViewModel.togglePrayerReminder(it, prayerReminderDelay) }
+            )
+        }
+
+        item {
+            SecuritySetting(isSecure = isSecure, onToggle = {
+                settingsViewModel.enableSecurity(it)
+            })
+        }
+
+        item {
+            PrayerTimesSync(
+                isSync = isPrayerTimesSynced,
+                onClick = {
+                    settingsViewModel.syncPrayerTimes()
+                }
+            )
+        }
     }
 }

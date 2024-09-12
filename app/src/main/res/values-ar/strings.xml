@@ -13,4 +13,26 @@
     <string name="stats">إحصاءات</string>
     <string name="time_minutes">دقيقة</string>
     <string name="setting_sync_times">مزامنة أوقات الصلاة</string>
+    <string name="PRAYER_FAJR">الفجر</string>
+    <string name="PRAYER_DHUHR">الظهر</string>
+    <string name="PRAYER_ASR">العصر</string>
+    <string name="PRAYER_MAGHRIB">المغرب</string>
+    <string name="PRAYER_ISHA">العشاء</string>
+    <string name="STATUS_MISSED">ضائعة</string>
+    <string name="STATUS_LATE_ALONE">فردي متأخر</string>
+    <string name="STATUS_GROUP">جماعة</string>
+    <string name="STATUS_ONTIME_ALONE">فردي في الوقت</string>
+    <string name="PRAYER">صلاة</string>
+    <string name="STATS_SCOREBOARD">التقدم</string>
+    <string name="STATS_INFOS">معلومات</string>
+    <string name="STATS_STREAK">سلسلة</string>
+    <string name="STATS_CHALLENGES">التحديات</string>
+    <string name="STATS_PRAYER_LOG">المتابعة</string>
+    <string name="STATS_SCORE">نقاط</string>
+    <string name="STATS_GROUP">جماعة</string>
+    <string name="DAILY_PRAYER_CH_TITLE">تحدي الصلاة اليومي</string>
+    <string name="DAILY_PRAYER_CH_DESC">صل جميع الصلوات في وقتها لليوم</string>
+    <string name="WEEKLY_FAJR_CH_TITLE">تحدي الفجر الأسبوعي</string>
+    <string name="WEEKLY_FAJR_CH_DESC">صل الفجر في وقته هذا الأسبوع</string>
+    <string name="DAY">يوم</string>
 </resources>

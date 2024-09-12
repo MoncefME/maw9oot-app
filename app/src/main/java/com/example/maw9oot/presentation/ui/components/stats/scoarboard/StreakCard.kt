@@ -13,13 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.maw9oot.R
 
 @Composable
-fun StreakCard() {
+fun StreakCard(
+    currentStreak: Int
+) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -32,11 +35,11 @@ fun StreakCard() {
             contentDescription = "Dark Theme Icon"
         )
         Text(
-            text = "Streak",
+            text = stringResource(id = R.string.STATS_STREAK),
             fontSize = 12.sp
         )
         Text(
-            text = "20 day",
+            text = "$currentStreak ${stringResource(id = R.string.DAY)}",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )

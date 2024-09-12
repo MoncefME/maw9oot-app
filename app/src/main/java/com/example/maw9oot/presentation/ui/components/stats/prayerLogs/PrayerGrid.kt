@@ -20,13 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.maw9oot.R
 import com.example.maw9oot.data.model.PrayerLog
-import com.example.maw9oot.presentation.ui.enums.Prayer
+import com.example.maw9oot.data.enums.Prayer
 import com.example.maw9oot.presentation.viewmodel.StatViewModel
 import java.time.LocalDate
 import java.time.Month
@@ -65,7 +66,7 @@ fun PrayerGrid(
                 .fillMaxWidth()
                 .height(245.dp),
         ) {
-            PrayerNameColumn(prayers = prayers)
+            PrayerNameColumn()
 
             LazyRow(
                 modifier = Modifier
@@ -92,7 +93,14 @@ fun getStatusColor(status: String): Color {
 }
 
 @Composable
-fun PrayerNameColumn(prayers: List<String>) {
+fun PrayerNameColumn() {
+    val prayers: List<String> = listOf(
+        stringResource(id = R.string.PRAYER_FAJR),
+        stringResource(id = R.string.PRAYER_DHUHR),
+        stringResource(id = R.string.PRAYER_ASR),
+        stringResource(id = R.string.PRAYER_MAGHRIB),
+        stringResource(id = R.string.PRAYER_ISHA)
+    )
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -106,12 +114,12 @@ fun PrayerNameColumn(prayers: List<String>) {
                 .clip(RoundedCornerShape(2.dp))
                 .fillMaxWidth()
                 .height(32.dp)
-                .padding(start = 4.dp)
+                .align(Alignment.CenterHorizontally)
         ) {
             Text(
-                text = "Prayer",
+                text = stringResource(id = R.string.PRAYER),
                 fontSize = 15.sp,
-                modifier = Modifier.align(Alignment.TopEnd)
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 
@@ -121,13 +129,12 @@ fun PrayerNameColumn(prayers: List<String>) {
                     .padding(vertical = 4.dp)
                     .clip(RoundedCornerShape(2.dp))
                     .fillMaxWidth()
-                    .height(32.dp)
-                    .padding(start = 4.dp)
+                    .height(32.dp),
             ) {
                 Text(
                     text = prayer,
                     fontSize = 15.sp,
-                    modifier = Modifier.align(Alignment.TopEnd)
+                    modifier = Modifier.align(Alignment.Center)
                 )
             }
         }
@@ -199,7 +206,7 @@ fun TitleRow(
                 contentDescription = "Dark Theme Icon"
             )
             Text(
-                text = "Prayer Log",
+                text = stringResource(id = R.string.STATS_PRAYER_LOG),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
             )

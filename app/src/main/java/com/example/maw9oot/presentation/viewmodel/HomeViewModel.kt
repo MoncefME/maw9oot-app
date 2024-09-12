@@ -1,14 +1,17 @@
 package com.example.maw9oot.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.maw9oot.data.repository.PrayerLogRepository
 import com.example.maw9oot.data.repository.PrayerTimesRepository
-import com.example.maw9oot.presentation.ui.enums.Prayer
-import com.example.maw9oot.presentation.ui.enums.PrayerStatus
+import com.example.maw9oot.data.enums.Prayer
+import com.example.maw9oot.data.enums.PrayerStatus
+import com.example.maw9oot.data.local.DataStoreManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import java.text.SimpleDateFormat
@@ -17,7 +20,8 @@ import java.util.*
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val prayerLogRepository: PrayerLogRepository,
-    private val prayerTimesRepository: PrayerTimesRepository
+    private val prayerTimesRepository: PrayerTimesRepository,
+    private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
     private val _selectedPrayer = MutableLiveData<Prayer>(Prayer.FAJR)
@@ -56,6 +60,55 @@ class HomeViewModel @Inject constructor(
                 prayerType = prayer.prayerName,
                 status = status.name
             )
+
+            when (status) {
+                PrayerStatus.WITH_GROUP -> updatePointsAndPercentage(2)
+                PrayerStatus.ON_TIME_ALONE -> updatePointsAndPercentage(1)
+                PrayerStatus.LATE_ALONE -> updatePointsAndPercentage(-1)
+                PrayerStatus.MISSED -> applyMissedPenalty()
+                PrayerStatus.NONE -> TODO()
+            }
+
+            val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
+            updateStreak(today)
+        }
+    }
+
+    private suspend fun updatePointsAndPercentage(pointsDelta: Int) {
+        viewModelScope.launch {
+
+            val currentPoints = dataStoreManager.points.first()
+            dataStoreManager.setPoints(currentPoints + pointsDelta)
+
+            val totalPrayers = prayerLogRepository.getTotalPrayerCount().first()
+            val groupPrayers = prayerLogRepository.getGroupPrayerCount().first()
+
+            val groupPercentage = if (totalPrayers > 0) {
+                (groupPrayers.toDouble() / totalPrayers * 100).toInt()
+            } else {
+                0
+            }
+
+            dataStoreManager.setGroupPercentage(groupPercentage)
+        }
+    }
+
+    private suspend fun applyMissedPenalty() {
+        viewModelScope.launch {
+
+            val currentPoints = dataStoreManager.points.first()
+            dataStoreManager.setPoints((currentPoints * 0.9).toInt())
+
+            val totalPrayers = prayerLogRepository.getTotalPrayerCount().first()
+            val groupPrayers = prayerLogRepository.getGroupPrayerCount().first()
+
+            val groupPercentage = if (totalPrayers > 0) {
+                (groupPrayers.toDouble() / totalPrayers * 100).toInt()
+            } else {
+                0
+            }
+
+            dataStoreManager.setGroupPercentage(groupPercentage)
         }
     }
 
@@ -90,10 +143,16 @@ class HomeViewModel @Inject constructor(
         return dbFormat.format(date)
     }
 
-    private fun convertToAppDateFormat(dbDate: String): String {
-        val dbFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        val appFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = dbFormat.parse(dbDate) ?: return dbDate
-        return appFormat.format(date)
+
+
+    private fun updateStreak(today: String) {
+        viewModelScope.launch {
+            val streak = prayerLogRepository.getCurrentStreak(today)
+
+            Log.d("HomeViewModel", "updateStreak: $streak")
+
+            dataStoreManager.setStreak(streak)
+        }
     }
+
 }

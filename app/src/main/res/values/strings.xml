@@ -12,4 +12,26 @@
     <string name="stats">Stats</string>
     <string name="time_minutes">min</string>
     <string name="setting_sync_times">Prayer Times Sync</string>
+    <string name="PRAYER_FAJR">Fajr</string>
+    <string name="PRAYER_DHUHR">Dhuhr</string>
+    <string name="PRAYER_ASR">Asr</string>
+    <string name="PRAYER_MAGHRIB">Maghrib</string>
+    <string name="PRAYER_ISHA">Isha</string>
+    <string name="STATUS_MISSED">Missed</string>
+    <string name="STATUS_LATE_ALONE">Late Alone</string>
+    <string name="STATUS_GROUP">With Group</string>
+    <string name="STATUS_ONTIME_ALONE">On time Alone</string>
+    <string name="PRAYER">Prayer</string>
+    <string name="STATS_SCOREBOARD">Progress</string>
+    <string name="STATS_INFOS">Infos</string>
+    <string name="STATS_STREAK">Streak</string>
+    <string name="STATS_CHALLENGES">Challenges</string>
+    <string name="STATS_PRAYER_LOG">Prayer Log</string>
+    <string name="STATS_SCORE">Score</string>
+    <string name="STATS_GROUP">Group</string>
+    <string name="DAILY_PRAYER_CH_TITLE">Daily Prayer Challenge</string>
+    <string name="DAILY_PRAYER_CH_DESC">Complete All Prayers On Time</string>
+    <string name="WEEKLY_FAJR_CH_TITLE">Weekly Fajr Challenge</string>
+    <string name="WEEKLY_FAJR_CH_DESC">Pray Fajr On time for a week !</string>
+    <string name="DAY">day</string>
 </resources>

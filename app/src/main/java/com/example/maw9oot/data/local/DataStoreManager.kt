@@ -3,6 +3,7 @@ package com.example.maw9oot.data.local
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -31,6 +32,21 @@ class DataStoreManager @Inject constructor(@ApplicationContext private val conte
 
     private val SECURITY_ENABLED_KEY = booleanPreferencesKey("security_enabled")
 
+    // New keys for streak, points, and group percentage
+    private val STREAK_KEY = intPreferencesKey("streak")
+    private val POINTS_KEY = intPreferencesKey("points")
+    private val GROUP_PERCENTAGE_KEY = intPreferencesKey("group_percentage")
+
+
+    val streak: Flow<Int> = context.dataStore.data
+        .map { preferences -> preferences[STREAK_KEY] ?: 0 }
+
+    val points: Flow<Int> = context.dataStore.data
+        .map { preferences -> preferences[POINTS_KEY] ?: 0 }
+
+    val groupPercentage: Flow<Int> = context.dataStore.data
+        .map { preferences -> preferences[GROUP_PERCENTAGE_KEY] ?: 0 }
+
     val isDailyNotificationEnabled: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[DAILY_NOTIFICATION_KEY] ?: false
@@ -52,21 +68,6 @@ class DataStoreManager @Inject constructor(@ApplicationContext private val conte
             preferences[DARK_THEME_KEY] ?: false
         }
 
-    fun getInitialDarkTheme(): Boolean {
-        return runBlocking {
-            context.dataStore.data.map { preferences ->
-                preferences[DARK_THEME_KEY] ?: false
-            }.first()
-        }
-    }
-
-    fun getInitialSecurity():Boolean{
-        return runBlocking {
-            context.dataStore.data.map { preferences ->
-                preferences[SECURITY_ENABLED_KEY] ?: false
-            }.first()
-        }
-    }
 
     val language : Flow<String> = context.dataStore.data
         .map{ preferences->
@@ -122,5 +123,17 @@ class DataStoreManager @Inject constructor(@ApplicationContext private val conte
         context.dataStore.edit { preferences ->
             preferences[SECURITY_ENABLED_KEY] = enabled
         }
+    }
+
+    suspend fun setStreak(streak: Int) {
+        context.dataStore.edit { preferences -> preferences[STREAK_KEY] = streak }
+    }
+
+    suspend fun setPoints(points: Int) {
+        context.dataStore.edit { preferences -> preferences[POINTS_KEY] = points }
+    }
+
+    suspend fun setGroupPercentage(percentage: Int) {
+        context.dataStore.edit { preferences -> preferences[GROUP_PERCENTAGE_KEY] = percentage }
     }
 }

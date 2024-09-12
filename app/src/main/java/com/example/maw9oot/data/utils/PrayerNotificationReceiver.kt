@@ -1,4 +1,4 @@
-package com.example.maw9oot.presentation.ui.utils
+package com.example.maw9oot.data.utils
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -15,7 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.example.maw9oot.MainActivity
 import com.example.maw9oot.R
-import com.example.maw9oot.presentation.ui.enums.Prayer
+import com.example.maw9oot.data.enums.Prayer
 
 class PrayerNotificationReceiver : BroadcastReceiver() {
 

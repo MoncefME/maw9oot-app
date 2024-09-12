@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dokar.sheets.BottomSheetState
 import com.dokar.sheets.m3.BottomSheet
-import com.example.maw9oot.presentation.ui.enums.Prayer
-import com.example.maw9oot.presentation.ui.enums.PrayerStatus
+import com.example.maw9oot.data.enums.Prayer
+import com.example.maw9oot.data.enums.PrayerStatus
 import com.example.maw9oot.ui.theme.PoppinsFontFamily
 import kotlinx.coroutines.launch
 

@@ -10,13 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.maw9oot.R
 
 @Composable
-fun ScoreCard(){
+fun ScoreCard(
+    currentPoints: Int
+){
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -28,11 +31,11 @@ fun ScoreCard(){
             contentDescription = "Dark Theme Icon"
         )
         Text(
-            text="Score",
+            text= stringResource(id = R.string.STATS_SCORE),
             fontSize = 12.sp
         )
         Text(
-            text="200 pt",
+            text="+$currentPoints",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )

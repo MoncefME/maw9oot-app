@@ -14,12 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.maw9oot.R
-import com.example.maw9oot.presentation.ui.enums.PrayerStatus
+import com.example.maw9oot.data.enums.Prayer
+import com.example.maw9oot.data.enums.PrayerStatus
 import com.example.maw9oot.presentation.viewmodel.StatViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -42,6 +44,14 @@ private val dayOfWeekAbbreviations = mapOf(
     "SUNDAY" to "Su"
 )
 
+val defaultPrayers = listOf(
+    Prayer.FAJR,
+    Prayer.DHUHR,
+    Prayer.ASR,
+    Prayer.MAGHRIB,
+    Prayer.ISHA
+)
+
 @Composable
 fun ChallengesList(
     statViewModel: StatViewModel = hiltViewModel()
@@ -54,14 +64,20 @@ fun ChallengesList(
 
     var showDialog by remember { mutableStateOf(false) }
 
+
     val prayerStatuses by statViewModel.currentDayPrayers.collectAsState()
     val weeklyFajrPrayers by statViewModel.weeklyFajrChallenge.collectAsState()
 
-    Log.d("ChallengesList", "Prayer statuses: $prayerStatuses")
-    Log.d("ChallengesList", "Weekly Fajr Prayers: $weeklyFajrPrayers")
+    val defaultPrayerStatuses = defaultPrayers.associateWith { false }
+
+    val mergedPrayerStatuses = defaultPrayerStatuses.toMutableMap().apply {
+        prayerStatuses.forEach { (prayer, status) ->
+            this[prayer] = status
+        }
+    }
 
 
-    val dailyPrayerStatuses = prayerStatuses.map {
+    val dailyPrayerStatuses = mergedPrayerStatuses.map {
         DailyPrayerStatus(
             prayerName = it.key.prayerName,
             isCompletedOnTime = it.value
@@ -79,7 +95,7 @@ fun ChallengesList(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         TitleRow(onShowDialog = { showDialog = it })
@@ -104,7 +120,7 @@ fun ChallengesList(
                         Card(
                             modifier = Modifier
                                 .fillParentMaxWidth()
-                                .height(150.dp)
+                                .height(160.dp)
                                 .padding(horizontal = 2.dp), colors = CardDefaults.cardColors(
                                 containerColor = Color(0x77cf9ed2)
                             )
@@ -115,7 +131,7 @@ fun ChallengesList(
                         Card(
                             modifier = Modifier
                                 .fillParentMaxWidth()
-                                .height(150.dp)
+                                .height(160.dp)
                                 .padding(horizontal = 2.dp), colors = CardDefaults.cardColors(
                                 containerColor = Color(0x77f6ca85)
                             )
@@ -159,7 +175,7 @@ fun TitleRow(onShowDialog: (Boolean) -> Unit) {
                 contentDescription = "Dark Theme Icon"
             )
             Text(
-                text = "Challenges",
+                text = stringResource(id = R.string.STATS_CHALLENGES),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
             )
@@ -179,7 +195,7 @@ fun TitleRow(onShowDialog: (Boolean) -> Unit) {
             ) {
 
                 Text(
-                    text = "Infos",
+                    text = stringResource(id = R.string.STATS_INFOS),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                 )

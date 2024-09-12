@@ -2,6 +2,7 @@ package com.example.maw9oot.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.maw9oot.data.local.DataStoreManager
 import com.example.maw9oot.data.local.PrayerDatabase
 import com.example.maw9oot.data.local.PrayerLogDao
 import com.example.maw9oot.data.local.PrayerTimeDao

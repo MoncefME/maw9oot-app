@@ -9,17 +9,10 @@ import com.example.maw9oot.presentation.ui.screens.HomeScreen
 import com.example.maw9oot.presentation.ui.screens.SettingScreen
 
 @Composable
-fun NavigationGraph(navController: NavHostController){
-
-    NavHost(navController = navController, startDestination = Screens.HomeScreen.route){
-        composable(route = Screens.HomeScreen.route){
-            HomeScreen()
-        }
-        composable(route = Screens.StatScreen.route){
-            StatScreen()
-        }
-        composable(route = Screens.SettingScreen.route){
-            SettingScreen()
-        }
+fun NavigationGraph(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
+        composable(route = Screens.HomeScreen.route) { HomeScreen() }
+        composable(route = Screens.StatScreen.route) { StatScreen() }
+        composable(route = Screens.SettingScreen.route) { SettingScreen() }
     }
 }

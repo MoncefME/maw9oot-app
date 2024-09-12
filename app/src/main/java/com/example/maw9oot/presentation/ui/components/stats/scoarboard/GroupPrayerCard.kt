@@ -10,13 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.maw9oot.R
 
 @Composable
-fun GroupPrayerCard(){
+fun GroupPrayerCard(
+    currentGroupPercentage  : Int
+){
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -28,11 +31,11 @@ fun GroupPrayerCard(){
             contentDescription = "Dark Theme Icon"
         )
         Text(
-            text="Group",
+            text= stringResource(id = R.string.STATS_GROUP),
             fontSize = 12.sp
         )
         Text(
-            text="20 %",
+            text="$currentGroupPercentage%",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )

@@ -22,7 +22,7 @@ import com.example.maw9oot.presentation.navigation.NavigationGraph
 import com.example.maw9oot.presentation.ui.layout.BottomNavBar
 import com.example.maw9oot.presentation.ui.layout.TopBar
 import com.example.maw9oot.presentation.ui.screens.AuthenticationScreen
-import com.example.maw9oot.presentation.ui.utils.BiometricsPromptManager
+import com.example.maw9oot.data.utils.BiometricsPromptManager
 import com.example.maw9oot.ui.theme.Maw9ootTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first

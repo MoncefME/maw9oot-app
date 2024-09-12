@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.maw9oot.data.local.DataStoreManager
-import com.example.maw9oot.presentation.ui.utils.cancelAllNotifications
-import com.example.maw9oot.presentation.ui.utils.scheduleDailyNotification
-import com.example.maw9oot.presentation.ui.utils.schedulePrayerReminder
+import com.example.maw9oot.data.utils.cancelAllNotifications
+import com.example.maw9oot.data.utils.scheduleDailyNotification
+import com.example.maw9oot.data.utils.schedulePrayerReminder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch

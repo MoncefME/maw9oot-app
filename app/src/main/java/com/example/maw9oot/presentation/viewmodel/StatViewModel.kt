@@ -5,11 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.maw9oot.data.local.DataStoreManager
 import com.example.maw9oot.data.model.PrayerLog
 import com.example.maw9oot.data.repository.PrayerLogRepository
-import com.example.maw9oot.presentation.ui.enums.Prayer
-import com.example.maw9oot.presentation.ui.enums.PrayerStatus
+import com.example.maw9oot.data.enums.Prayer
+import com.example.maw9oot.data.enums.PrayerStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -24,6 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
     private val repository: PrayerLogRepository
 ) : ViewModel() {
 
@@ -42,11 +45,19 @@ class StatViewModel @Inject constructor(
     private val _weeklyFajrChallenge = MutableStateFlow<Map<String, PrayerStatus>>(emptyMap())
     val weeklyFajrChallenge: StateFlow<Map<String, PrayerStatus>> = _weeklyFajrChallenge
 
+    private val _currentStreak = dataStoreManager.streak
+    val currentStreak: Flow<Int> = _currentStreak
+
+    private val _currentPoints = dataStoreManager.points
+    val currentPoints: Flow<Int> = _currentPoints
+
+    private val _currentGroupPercentage = dataStoreManager.groupPercentage
+    val currentGroupPercentage: Flow<Int> = _currentGroupPercentage
+
     init {
         refreshData()
     }
 
-    // Grouped data-fetching functions
     private fun refreshData() {
         fetchPrayerLogsForCurrentMonthYear()
         fetchPrayersForCurrentDay()
@@ -129,6 +140,8 @@ class StatViewModel @Inject constructor(
         _currentYear.value = year
         fetchPrayerLogsForCurrentMonthYear()
     }
+
+
 }
 
 
