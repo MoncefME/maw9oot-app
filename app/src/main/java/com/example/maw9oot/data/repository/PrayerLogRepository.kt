@@ -81,32 +81,20 @@ class PrayerLogRepository @Inject constructor(
         return calculateStreak(validDates, today)
     }
 
-
     private fun calculateStreak(validDates: List<String>, today: String): Int {
         if (validDates.isEmpty()) return 0
 
-
-        Log.d("PrayerLogRepository", "validDates: $validDates")
-
-        // Convert today to LocalDate
         var currentDate = LocalDate.parse(today)
 
-        Log.d("PrayerLogRepository", "currentDate: $currentDate")
         var streak = 0
 
-        // Create a set of valid dates for quick lookup
         val validDateSet = validDates.map { LocalDate.parse(it) }.toSet()
 
-        Log.d("PrayerLogRepository", "validDateSet: $validDateSet")
-
-        // Iterate backwards from today
         while (validDateSet.contains(currentDate)) {
             streak++
             currentDate = currentDate.minusDays(1)
         }
 
-
         return streak
     }
-
 }

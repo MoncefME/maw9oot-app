@@ -30,6 +30,7 @@ android {
 
     }
 
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -58,15 +59,7 @@ android {
         }
     }
 
-    signingConfigs {
-        create("release") {
-            storeFile = file("keystore.jks")
-            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-        }
-    }
-
+    
 }
 
 
@@ -127,8 +120,11 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
-    //
+    // Coroutines
     implementation(libs.accompanist.flowlayout)
+
+    // Permissions
+    implementation(libs.accompanist.permissions)
 
 
 }

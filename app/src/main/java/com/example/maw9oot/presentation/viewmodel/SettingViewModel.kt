@@ -1,6 +1,7 @@
 package com.example.maw9oot.presentation.viewmodel
 
 import android.content.Context
+import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.maw9oot.data.local.DataStoreManager
@@ -13,9 +14,13 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.example.maw9oot.data.repository.PrayerTimesRepository
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -42,6 +47,8 @@ class SettingsViewModel @Inject constructor(
     private val _isPrayerTimesSynced = MutableStateFlow(false)
     val isPrayerTimesSynced: StateFlow<Boolean> = _isPrayerTimesSynced
 
+   // val notificationPermission: PermissionState = rememberPermissionState(permission = android.Manifest.permission.POST_NOTIFICATIONS)
+
     init {
         viewModelScope.launch {
             _isPrayerTimesSynced.value = prayerTimesRepository.isPrayerTimesSynced()
@@ -54,13 +61,11 @@ class SettingsViewModel @Inject constructor(
         val year: Int = Calendar.getInstance().get(Calendar.YEAR)
         viewModelScope.launch {
             try {
-                // Only sync if not already synced
                 if (!_isPrayerTimesSynced.value) {
                     prayerTimesRepository.fetchAndStorePrayerTimes(latitude, longitude, year)
                     _isPrayerTimesSynced.value = prayerTimesRepository.isPrayerTimesSynced()
                 }
             } catch (e: Exception) {
-                // Handle exceptions if needed (e.g., logging or displaying an error message)
                 Log.e("SettingsViewModel", "Error syncing prayer times: ${e.message}")
                 _isPrayerTimesSynced.value = false
             }
@@ -78,12 +83,12 @@ class SettingsViewModel @Inject constructor(
     fun setLanguage(language: String) {
         viewModelScope.launch {
             dataStoreManager.setLanguage(language)
-            updateLocale(language, appContext)
+            updateLocale(language)
             Log.d("SettingsViewModel", "Language set to $language")
         }
     }
 
-    private fun updateLocale(language: String, context: Context) {
+    private fun updateLocale(language: String) {
         val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(language)
         AppCompatDelegate.setApplicationLocales(appLocale)
     }
@@ -95,19 +100,15 @@ class SettingsViewModel @Inject constructor(
             dataStoreManager.setNotificationTime(time)
             val (hour, minute) = time.split(":").map { it.toInt() }
             val calendar = Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis() // Set the current time first
+                timeInMillis = System.currentTimeMillis()
                 set(Calendar.HOUR_OF_DAY, hour)
                 set(Calendar.MINUTE, minute)
                 set(Calendar.SECOND, 0)
                 if (before(Calendar.getInstance())) {
-                    // If the time is before the current time, schedule for the next day
                     add(Calendar.DAY_OF_YEAR, 1)
                 }
             }
-            // Cancel any previously set daily notifications
             cancelAllNotifications(appContext)
-            // Schedule the new daily notification
-            Log.d("SettingsViewModel", "Scheduling daily notification for $calendar")
             scheduleDailyNotification(appContext, calendar)
         }
     }
@@ -141,7 +142,7 @@ class SettingsViewModel @Inject constructor(
         val currentDate = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val formattedDate = dateFormat.format(currentDate)
-        Log.d("SettingsViewModel", "Prayer reminder enabled: $enabled, delay: $delayMinutes")
+
         viewModelScope.launch {
 
             dataStoreManager.setPrayerReminderEnabled(enabled)
@@ -151,7 +152,6 @@ class SettingsViewModel @Inject constructor(
                 val delay = delayMinutes.toIntOrNull() ?: 15
                 val prayerTimes = prayerTimesRepository.getPrayerTimesForDate(formattedDate)
 
-                Log.d("SettingsViewModel", "Prayer times for $formattedDate: $prayerTimes")
 
                 if (prayerTimes.isNotEmpty()) {
                     for (prayerTime in prayerTimes) {

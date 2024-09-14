@@ -8,132 +8,137 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
-
 
 private val Context.dataStore by preferencesDataStore(name = "settings")
 
 class DataStoreManager @Inject constructor(@ApplicationContext private val context: Context) {
 
-    private val DARK_THEME_KEY = booleanPreferencesKey("dark_theme")
-
-    private val LANGUAGE_KEY = stringPreferencesKey("language")
-
-    private val NOTIFICATION_TIME_KEY = stringPreferencesKey("notification_time")
-
-    private val DAILY_NOTIFICATION_KEY = booleanPreferencesKey("daily_notification")
-
-    private val PRAYER_REMINDER_KEY = booleanPreferencesKey("prayer_reminder")
-
-    private val PRAYER_REMINDER_DELAY_KEY = stringPreferencesKey("prayer_reminder_delay")
-
-    private val SECURITY_ENABLED_KEY = booleanPreferencesKey("security_enabled")
-
-    // New keys for streak, points, and group percentage
-    private val STREAK_KEY = intPreferencesKey("streak")
-    private val POINTS_KEY = intPreferencesKey("points")
-    private val GROUP_PERCENTAGE_KEY = intPreferencesKey("group_percentage")
-
-
-    val streak: Flow<Int> = context.dataStore.data
-        .map { preferences -> preferences[STREAK_KEY] ?: 0 }
-
-    val points: Flow<Int> = context.dataStore.data
-        .map { preferences -> preferences[POINTS_KEY] ?: 0 }
-
-    val groupPercentage: Flow<Int> = context.dataStore.data
-        .map { preferences -> preferences[GROUP_PERCENTAGE_KEY] ?: 0 }
-
-    val isDailyNotificationEnabled: Flow<Boolean> = context.dataStore.data
-        .map { preferences ->
-            preferences[DAILY_NOTIFICATION_KEY] ?: false
-        }
-
-    val isPrayerReminderEnabled: Flow<Boolean> = context.dataStore.data
-        .map { preferences ->
-            preferences[PRAYER_REMINDER_KEY] ?: false
-        }
-
-    val prayerReminderDelay: Flow<String> = context.dataStore.data
-        .map { preferences ->
-            preferences[PRAYER_REMINDER_DELAY_KEY] ?: "15"
-        }
-
+    //** Dark Theme **//
+    private val darkThemeKey = booleanPreferencesKey("dark_theme")
 
     val isDarkTheme: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[DARK_THEME_KEY] ?: false
-        }
-
-
-    val language : Flow<String> = context.dataStore.data
-        .map{ preferences->
-            preferences[LANGUAGE_KEY] ?: "en"
-        }
-
-    val notificationTime: Flow<String> = context.dataStore.data.map { preferences ->
-        preferences[NOTIFICATION_TIME_KEY] ?: "00:00"
-    }
-
-    val isSecurityEnabled: Flow<Boolean> = context.dataStore.data
-        .map { preferences ->
-            preferences[SECURITY_ENABLED_KEY] ?: false
+            preferences[darkThemeKey] ?: false
         }
 
     suspend fun setDarkTheme(isDarkTheme: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[DARK_THEME_KEY] = isDarkTheme
+            preferences[darkThemeKey] = isDarkTheme
         }
     }
 
-    suspend fun setLanguage(language: String){
-        context.dataStore.edit{ preferences ->
-            preferences[LANGUAGE_KEY] = language
+    //** Language **//
+    private val languageKey = stringPreferencesKey("language")
+
+    val language: Flow<String> = context.dataStore.data
+        .map { preferences ->
+            preferences[languageKey] ?: "en"
         }
+
+    suspend fun setLanguage(language: String) {
+        context.dataStore.edit { preferences ->
+            preferences[languageKey] = language
+        }
+    }
+
+    //** Notification Time **//
+    private val notificationTimeKey = stringPreferencesKey("notification_time")
+
+    val notificationTime: Flow<String> = context.dataStore.data.map { preferences ->
+        preferences[notificationTimeKey] ?: "00:00"
     }
 
     suspend fun setNotificationTime(time: String) {
         context.dataStore.edit { preferences ->
-            preferences[NOTIFICATION_TIME_KEY] = time
+            preferences[notificationTimeKey] = time
         }
     }
+
+    //** Daily Notification **//
+    private val dailyNotificationKey = booleanPreferencesKey("daily_notification")
+
+    val isDailyNotificationEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[dailyNotificationKey] ?: false
+        }
 
     suspend fun setDailyNotificationEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[DAILY_NOTIFICATION_KEY] = enabled
+            preferences[dailyNotificationKey] = enabled
         }
     }
+
+    //** Prayer Reminder **//
+    private val prayerReminderKey = booleanPreferencesKey("prayer_reminder")
+
+    val isPrayerReminderEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[prayerReminderKey] ?: false
+        }
 
     suspend fun setPrayerReminderEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[PRAYER_REMINDER_KEY] = enabled
+            preferences[prayerReminderKey] = enabled
         }
     }
+
+    //** Prayer Reminder Delay **//
+    private val prayerReminderDelayKey = stringPreferencesKey("prayer_reminder_delay")
+
+    val prayerReminderDelay: Flow<String> = context.dataStore.data
+        .map { preferences ->
+            preferences[prayerReminderDelayKey] ?: "15"
+        }
 
     suspend fun setPrayerReminderDelay(minutes: String) {
         context.dataStore.edit { preferences ->
-            preferences[PRAYER_REMINDER_DELAY_KEY] = minutes
+            preferences[prayerReminderDelayKey] = minutes
         }
     }
+
+    //** Security **//
+    private val securityEnabledKey = booleanPreferencesKey("security_enabled")
+
+    val isSecurityEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[securityEnabledKey] ?: false
+        }
 
     suspend fun setSecurityEnabled(enabled: Boolean) {
         context.dataStore.edit { preferences ->
-            preferences[SECURITY_ENABLED_KEY] = enabled
+            preferences[securityEnabledKey] = enabled
         }
     }
 
+    //** Streak **//
+    private val streakKey = intPreferencesKey("streak")
+
+    val streak: Flow<Int> = context.dataStore.data
+        .map { preferences -> preferences[streakKey] ?: 0 }
+
     suspend fun setStreak(streak: Int) {
-        context.dataStore.edit { preferences -> preferences[STREAK_KEY] = streak }
+        context.dataStore.edit { preferences -> preferences[streakKey] = streak }
     }
+
+    //** Points **//
+    private val pointsKey = intPreferencesKey("points")
+
+    val points: Flow<Int> = context.dataStore.data
+        .map { preferences -> preferences[pointsKey] ?: 0 }
 
     suspend fun setPoints(points: Int) {
-        context.dataStore.edit { preferences -> preferences[POINTS_KEY] = points }
+        context.dataStore.edit { preferences -> preferences[pointsKey] = points }
     }
 
+    //** Group Percentage **/
+    private val groupPercentageKey = intPreferencesKey("group_percentage")
+
+    val groupPercentage: Flow<Int> = context.dataStore.data
+        .map { preferences -> preferences[groupPercentageKey] ?: 0 }
+
     suspend fun setGroupPercentage(percentage: Int) {
-        context.dataStore.edit { preferences -> preferences[GROUP_PERCENTAGE_KEY] = percentage }
+        context.dataStore.edit { preferences -> preferences[groupPercentageKey] = percentage }
     }
 }

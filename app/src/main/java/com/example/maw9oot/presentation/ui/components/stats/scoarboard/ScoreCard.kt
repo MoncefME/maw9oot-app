@@ -35,7 +35,7 @@ fun ScoreCard(
             fontSize = 12.sp
         )
         Text(
-            text="+$currentPoints",
+            text="${if(currentPoints>0)"+" else ""}$currentPoints",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )

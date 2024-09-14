@@ -64,8 +64,8 @@ class HomeViewModel @Inject constructor(
             when (status) {
                 PrayerStatus.WITH_GROUP -> updatePointsAndPercentage(2)
                 PrayerStatus.ON_TIME_ALONE -> updatePointsAndPercentage(1)
-                PrayerStatus.LATE_ALONE -> updatePointsAndPercentage(-1)
-                PrayerStatus.MISSED -> applyMissedPenalty()
+                PrayerStatus.LATE_ALONE -> updatePointsAndPercentage(-2)
+                PrayerStatus.MISSED -> updatePointsAndPercentage(-4)
                 PrayerStatus.NONE -> TODO()
             }
 
@@ -93,24 +93,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun applyMissedPenalty() {
-        viewModelScope.launch {
-
-            val currentPoints = dataStoreManager.points.first()
-            dataStoreManager.setPoints((currentPoints * 0.9).toInt())
-
-            val totalPrayers = prayerLogRepository.getTotalPrayerCount().first()
-            val groupPrayers = prayerLogRepository.getGroupPrayerCount().first()
-
-            val groupPercentage = if (totalPrayers > 0) {
-                (groupPrayers.toDouble() / totalPrayers * 100).toInt()
-            } else {
-                0
-            }
-
-            dataStoreManager.setGroupPercentage(groupPercentage)
-        }
-    }
 
     fun updateSelectedDate(newDate: String) {
         _selectedDate.value = newDate
@@ -148,9 +130,6 @@ class HomeViewModel @Inject constructor(
     private fun updateStreak(today: String) {
         viewModelScope.launch {
             val streak = prayerLogRepository.getCurrentStreak(today)
-
-            Log.d("HomeViewModel", "updateStreak: $streak")
-
             dataStoreManager.setStreak(streak)
         }
     }
