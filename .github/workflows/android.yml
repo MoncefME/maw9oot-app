@@ -30,6 +30,8 @@ jobs:
           release_name: "v1.0.0 Release"
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.ANDROID_GITHUB_TOKEN }}
 
       - name: Upload APK to Release
         uses: actions/upload-release-asset@v1
