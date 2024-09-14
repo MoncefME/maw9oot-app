@@ -40,3 +40,5 @@ jobs:
           asset_path: app/build/outputs/apk/debug/app-debug.apk
           asset_name: maw9oot.apk
           asset_content_type: application/vnd.android.package-archive
+        env:
+          GITHUB_TOKEN: ${{ secrets.ANDROID_GITHUB_TOKEN }}
