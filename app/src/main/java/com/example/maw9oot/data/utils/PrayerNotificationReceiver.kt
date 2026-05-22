@@ -22,6 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,9 +48,15 @@ class PrayerNotificationReceiver : BroadcastReceiver() {
                 putExtra("from_notification", true)
                 putExtra("prayer_name", prayerName)
             }
+
+            // Generate a consistent requestCode for the activity intent as well
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val formattedDate = dateFormat.format(Calendar.getInstance().time)
+            val requestCode = if (notificationType == "daily") "daily".hashCode() else "${prayerName}_${formattedDate}".hashCode()
+
             val pendingIntent = PendingIntent.getActivity(
                 context,
-                prayerName.hashCode(),
+                requestCode,
                 launchIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
