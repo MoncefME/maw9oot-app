@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.maw9oot.data.local.DataStoreManager
 import com.example.maw9oot.data.utils.cancelAllNotifications
+import com.example.maw9oot.data.utils.cancelDailyNotification
+import com.example.maw9oot.data.utils.cancelPrayerReminders
 import com.example.maw9oot.data.utils.scheduleDailyNotification
 import com.example.maw9oot.data.utils.schedulePrayerReminder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -108,7 +110,7 @@ class SettingsViewModel @Inject constructor(
                     add(Calendar.DAY_OF_YEAR, 1)
                 }
             }
-            cancelAllNotifications(appContext)
+            cancelDailyNotification(appContext)
             scheduleDailyNotification(appContext, calendar)
         }
     }
@@ -132,7 +134,7 @@ class SettingsViewModel @Inject constructor(
                 }
                 scheduleDailyNotification(appContext, calendar)
             } else {
-                cancelAllNotifications(appContext)
+                cancelDailyNotification(appContext)
             }
         }
     }
@@ -154,6 +156,7 @@ class SettingsViewModel @Inject constructor(
 
 
                 if (prayerTimes.isNotEmpty()) {
+                    cancelPrayerReminders(appContext)
                     for (prayerTime in prayerTimes) {
                         val calendar = Calendar.getInstance().apply {
                             val time = prayerTime.time.split(" ")[0]
@@ -170,7 +173,7 @@ class SettingsViewModel @Inject constructor(
                     Log.e("PrayerReminder", "No prayer times found for $formattedDate")
                 }
             } else {
-                cancelAllNotifications(appContext)
+                cancelPrayerReminders(appContext)
             }
         }
     }

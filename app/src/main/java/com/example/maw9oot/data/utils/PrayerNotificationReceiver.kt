@@ -16,8 +16,22 @@ import androidx.core.content.ContextCompat
 import com.example.maw9oot.MainActivity
 import com.example.maw9oot.R
 import com.example.maw9oot.data.enums.Prayer
+import com.example.maw9oot.data.local.DataStoreManager
+import com.example.maw9oot.data.repository.PrayerTimesRepository
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PrayerNotificationReceiver : BroadcastReceiver() {
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
+
+    @Inject
+    lateinit var prayerTimesRepository: PrayerTimesRepository
 
     override fun onReceive(context: Context, intent: Intent) {
         val notificationType = intent.getStringExtra("notification_type") ?: "prayer_reminder"
@@ -77,10 +91,10 @@ class PrayerNotificationReceiver : BroadcastReceiver() {
             }
 
 
-            val largeIcon = if (notificationType === "prayer_reminder")
+            val largeIcon = if (notificationType == "prayer_reminder")
                 BitmapFactory.decodeResource(context.resources, Prayer.fromName(prayerName).icon)
             else
-                BitmapFactory.decodeResource(context.resources, R.drawable.baseline_notifications_active_24)
+                BitmapFactory.decodeResource(context.resources, R.drawable.daily)
             val notificationBuilder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.mini_logo)
                 .setContentTitle(contentTitle)
@@ -92,6 +106,17 @@ class PrayerNotificationReceiver : BroadcastReceiver() {
 
             with(NotificationManagerCompat.from(context)) {
                 notify(notificationId, notificationBuilder.build())
+            }
+
+            // Reschedule alarms to ensure continuity
+            val pendingResult = goAsync()
+            val scope = CoroutineScope(Dispatchers.IO)
+            scope.launch {
+                try {
+                    rescheduleAllAlarms(context, dataStoreManager, prayerTimesRepository)
+                } finally {
+                    pendingResult.finish()
+                }
             }
         } else {
             Log.d("PrayerNotificationReceiver", "Notification permission not granted")

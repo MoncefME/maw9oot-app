@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var dataStoreManager: DataStoreManager
 
+    @Inject
+    lateinit var prayerTimesRepository: com.example.maw9oot.data.repository.PrayerTimesRepository
+
     private val promptManager by lazy {
         BiometricsPromptManager(this)
     }
@@ -50,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val savedLanguage = dataStoreManager.language.first()
             setLocale(savedLanguage)
+            com.example.maw9oot.data.utils.rescheduleAllAlarms(this@MainActivity, dataStoreManager, prayerTimesRepository)
         }
 
         setContent {

@@ -1,5 +1,7 @@
 package com.example.maw9oot.presentation.ui.screens
 
+import android.Manifest
+import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.example.maw9oot.presentation.ui.components.settings.DailyReminderSetting
 import com.example.maw9oot.presentation.ui.components.settings.DarkThemeSetting
 import com.example.maw9oot.presentation.ui.components.settings.LanguageSetting
@@ -18,10 +23,16 @@ import com.example.maw9oot.presentation.ui.components.settings.PrayerTimesSync
 import com.example.maw9oot.presentation.ui.components.settings.SecuritySetting
 import com.example.maw9oot.presentation.viewmodel.SettingsViewModel
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun SettingScreen(
     settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
+    val notificationPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
+    } else {
+        null
+    }
 
     val isDarkTheme by settingsViewModel.isDarkTheme.collectAsState(initial = false)
     val language by settingsViewModel.language.collectAsState(initial = "en")
@@ -60,7 +71,12 @@ fun SettingScreen(
                         formattedTime
                     )
                 },
-                onToggle = { settingsViewModel.toggleDailyNotification(it) }
+                onToggle = { enabled ->
+                    if (enabled && notificationPermissionState != null && !notificationPermissionState.status.isGranted) {
+                        notificationPermissionState.launchPermissionRequest()
+                    }
+                    settingsViewModel.toggleDailyNotification(enabled)
+                }
             )
         }
 
@@ -73,7 +89,12 @@ fun SettingScreen(
                         formattedDelay
                     )
                 },
-                onToggle = { settingsViewModel.togglePrayerReminder(it, prayerReminderDelay) }
+                onToggle = { enabled ->
+                    if (enabled && notificationPermissionState != null && !notificationPermissionState.status.isGranted) {
+                        notificationPermissionState.launchPermissionRequest()
+                    }
+                    settingsViewModel.togglePrayerReminder(enabled, prayerReminderDelay)
+                }
             )
         }
 
